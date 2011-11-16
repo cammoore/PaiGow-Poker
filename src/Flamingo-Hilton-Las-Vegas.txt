@@ -1,0 +1,58 @@
+Flamingo Hilton (Las Vegas) The "front" refers to the two card hand and the "back" refers to the five card hand.
+
+    No pair: Place the second and third highest cards in the front.
+
+    One pair: Place the pair in back and the two highest singletons in the front.
+
+    Two pair: Split the two pair except for the following three situations
+        Both pairs are 6's or less.
+        Both pairs are 10's or less plus ace singleton.
+        One pair of face cards, one pair of 5's or less, and an ace singleton. 
+
+    Three pair: Play highest pair in front.
+
+    Three of a kind: Play three of a kind in back except break up three aces.
+
+    Three of a kind twice: Play higher pair in front.
+
+    Straights and flushes:
+
+    Always play straight or flush in the high hand except play as a two pair if one of the following:
+        Aces and any other pair.
+        Both pairs 10's or over.
+        Both pairs 10's or under with an ace singleton. 
+
+    With a six or seven card straight or flush put the highest hand possible in front while maintaining the straight or flush in back.
+
+    If hand contains both a straight and a flush play put the hand in back with the highest hand in front, as long as the front hand is a king or better. Otherwise play flush in back.
+
+    Full house: Split except with pair of 2's and an ace/king can be played in front.
+
+    Full house with three of a kind and two pairs: Play the highest pair in front.
+
+    Four of a kind: Play according to the rank of the four of a kind:
+
+        2 through 6: Always keep together.
+        7 through 10: Split unless an ace and a face card or better can be played in front.
+        Jack through king: Split unless hand also contains a pair of 10's or higher.
+        Aces: Split unless a pair of 7's or higher can be played in front. 
+
+    Straight Flush:
+
+    Play the straight flush in back except play as a two pair with:
+
+        Aces and any other pair.
+        Both pairs tens or higher.
+        Both pairs tens or less and an ace singleton. 
+
+    Play a straight or flush instead if an ace and a face card or a pair can be played in front.
+
+    Royal Flush:
+
+    Play the royal flush in back except play as a two pair with:
+        Aces and any other pair.
+        Both pairs tens or higher. 
+
+    Break up royal flush if a straight or flush can be played in back and a king or better in front.
+
+    Five aces: Split unless pair of kings can be played in front.

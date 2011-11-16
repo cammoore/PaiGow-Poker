@@ -9,7 +9,6 @@ public class FixedWidthBinner implements Iterable<Integer> {
 	private int numBins = 1;
 	private double binWidth = 0.0;
 	private double start = 0.0;
-	private double end = 0.0;
 	private List<Integer> counts;
 	
 	public FixedWidthBinner(DataSequence seq, Number start, Number end,

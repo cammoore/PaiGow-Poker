@@ -11,7 +11,6 @@ import org.cam.utilities.statistics.FixedWidthBinner;
 public class CompareBettingSchemes {
 
 	private PaiGowTable table;
-	private BettingResultsFactory factory;
 	private DataSequence pgnrData;
 	private DataSequence pgrfData;
 	private DataSequence pgmrData;
@@ -50,7 +49,6 @@ public class CompareBettingSchemes {
 
 	public CompareBettingSchemes() {
 		this.table = new PaiGowTable();
-		this.factory = BettingResultsFactory.getInstance();
 		this.pgnrData = new DataSequence();
 		this.pgrfData = new DataSequence();
 		this.pgmrData = new DataSequence();
@@ -141,18 +139,12 @@ public class CompareBettingSchemes {
 		System.out.println("Max Raise:");
 		System.out.println(maxRaiseB);
 
-		FixedWidthBinner noRaiseFWB = new FixedWidthBinner(cbs.pgnrDataMeta, 0.0,
+		new FixedWidthBinner(cbs.pgnrDataMeta, 0.0,
 				stop, 25);
-		FixedWidthBinner raiseFiveFWB = new FixedWidthBinner(cbs.pgrfDataMeta, 0.0,
+		new FixedWidthBinner(cbs.pgrfDataMeta, 0.0,
 				stop, 25);
-		FixedWidthBinner maxRaiseFWB = new FixedWidthBinner(cbs.pgmrDataMeta, 0.0,
+		new FixedWidthBinner(cbs.pgmrDataMeta, 0.0,
 				stop, 25);
-//		System.out.println("No Raise:");
-//		System.out.println(noRaiseFWB);
-//		System.out.println("Raise Five:");
-//		System.out.println(raiseFiveFWB);
-//		System.out.println("Max Raise:");
-//		System.out.println(maxRaiseFWB);
 
 	}
 
@@ -273,16 +265,5 @@ public class CompareBettingSchemes {
 	private void playNewRounds(int numRounds) {
 		table = new PaiGowTable();
 		playRounds(numRounds);
-	}
-
-	private PaiGowBetting calcBetting(int seatNum, int stake, int minBet) {
-		PaiGowSeat seat = table.getSeat(seatNum);
-
-		return factory.calcStats(seat, stake, minBet);
-	}
-
-	private List<PaiGowHandResult> getResults(int seatNum) {
-		PaiGowSeat seat = table.getSeat(seatNum);
-		return seat.getResults();
 	}
 }

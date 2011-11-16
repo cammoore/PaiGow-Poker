@@ -1,0 +1,42 @@
+Golden Nugget (Las Vegas) The "front" refers to the two card hand and the "back" refers to the five card hand.
+
+    No pair: Place the highest card in the back and the next two highest cards in the front.
+
+    One pair: Place the pair in back and the next two highest cards in the front.
+
+    Two pair: Play two pair in back, except split in the following situations:
+        One pair is 7's or greater and no ace singleton.
+        Pair of jacks or better and 6's or better and an ace singleton.
+        Pair of aces and any other pair. 
+
+    Three pair: Always play highest pair in front.
+
+    Three of a kind: Always play three of a kind in back except break up three aces.
+
+    Full house: Split except with pair of 2's and an ace/king can be played in front.
+
+    Full house with three of a kind and two pairs: Play the highest pair in front.
+
+    Three of a kind twice: Always play highest pair in front.
+
+    Straights, flushes, straight flushes, and royal flushes:
+
+    Always play straight or flush in the high hand except play as a two pair if one of the following:
+        Any two pair and an ace singleton.
+        Pair of jacks and pair of 6's.
+        Pair of aces and any other pair. 
+
+    With a six or seven card straight or flush put the highest hand possible in front while maintaining the straight or flush in back.
+
+    Play staight or flush over straight flush to improve front hand to jack or better.
+
+    Play staight or flush over royal flush to improve front hand to king or better.
+
+    Four of a kind: Play according to the rank of the four of a kind:
+
+        2 through 6: Always keep together.
+        7 through 10: Split unless an ace or better can be played in front.
+        Jack through king: Split unless hand also contains a pair of 10's or higher.
+        Aces: Split unless a pair of 7's or higher can be played in front. 
+
+    Five aces: Split unless pair of kings can be played in front.

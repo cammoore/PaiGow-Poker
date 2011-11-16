@@ -11,9 +11,6 @@ public abstract class BaseHandBetting {
 	private Double currentBet;
 	private Integer handsPlayed;
 	
-	private Boolean broke;
-	private Boolean doubled;
-	
 	public BaseHandBetting(Double start, Double min) {
 		this.startStake = start;
 		this.stack = start;
@@ -21,8 +18,6 @@ public abstract class BaseHandBetting {
 		this.minBet = min;
 		this.currentBet = calcStartBet();
 		this.stack = this.startStake - this.currentBet;
-		this.broke = Boolean.FALSE;
-		this.doubled = Boolean.FALSE;
 		this.handsPlayed = 0;
 	}
 	

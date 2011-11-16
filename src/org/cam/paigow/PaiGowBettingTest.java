@@ -21,7 +21,6 @@ public class PaiGowBettingTest {
   private PaiGowHand hand;
   private ArrayList<ICard> cards;
   private List<ICard> low;
-  private List<ICard> high;
 
   /**
    * Test method for

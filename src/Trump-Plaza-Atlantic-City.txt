@@ -1,0 +1,62 @@
+Trump Plaza (Atlantic City)
+The "front" refers to the two card hand and the "back" refers to the five card hand.
+
+    No pair: Place the highest card in the back and the next two highest cards in the front.
+
+    One pair: Place the pair in back and the next two highest cards in the front.
+
+    Two pair: Use the following groups to determine how to play a two pair:
+
+    2 through 6: Low pair
+    7 through 10: Medium pairs
+    Jack through king: High pairs
+
+        Low pair and low pair: Split unless holding a king or better, then play two pair in the back.
+        Low pair and medium pair: Split unless holding a king or better, then play two pair in the back.
+        Low pair and high pair: Split unless holding an ace, then play two pair in the back.
+        Medium pair and medium pair: Split unless holding an ace, then play two pair in the back.
+        Medium pair and high pair: Always split.
+        High pair and high pair: Always split.
+        Pair of aces and any other pair: Always split. 
+
+    Three pair: Always play highest pair in front.
+
+    Three of a kind: Always play three of a kind in back unless they are aces, then play a pair of aces in back and one ace in front.
+
+    Three of a kind twice: Always play highest pair in front.
+
+    Straights, flushes, straight flushes, and royal flush:
+
+        With no pair: When choosing whether to play a straight, flush, or straight flush play the category which will allow the highest two cards in front.
+        With 6th or 7th card: Play the lower straight or flush in the back to place the highest cards in front.
+        With one pair: Play pair in the front only if a straight, flush, or straight can be played in the back.
+        With two pair: Use two pair rule.
+        With three pair: Use three pair rule.
+        With three of a kind: Play pair in front.
+        With full house: Use full house rule. 
+
+    Full house: Always split unless the pair is twos and you have an ace and a king to play in the front.
+
+    Full house with three of a kind and two pairs: Play the highest pair in front.
+
+    Full house with three of a kind twice: Always play the highest pair in front.
+
+    Four of a kind: Play according to the rank of the four of a kind:
+
+    2 through 6: Always keep together.
+    7 through 10: Split unless a king or better can be played in front.
+    Jack through king: Split unless an ace can be played in front.
+    Aces: Always split.
+
+    Four of a kind and a pair: Play pair in front.
+
+    Four of a kind and three of a kind: Play pair in front from the three of a kind.
+
+    Five aces: Split aces and play three aces in back and two aces in front unless you have a pair of kings, then play five aces in back and kings in front. 
+
+Claridge (Atlantic City)
+The house way at the Claridge in Atlantic City is published in their gaming guide. It is the same as that of the Trump Plaza with the following exceptions:
+
+    Full house: Always play the pair in the low hand.
+
+    Four of a kind: If the rank of the four of a kind is 7 through 10 then the only exception to splitting is if an ace can be played in front. If the rank is jack through king there then always split with no exceptions. 

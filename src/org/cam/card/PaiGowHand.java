@@ -1164,29 +1164,6 @@ public final class PaiGowHand extends Hand {
   }
 
   /**
-   * @return The index where the joker fills a straight.
-   */
-  private int jokerStraightIndex() {
-    if (hasJoker()) {
-      for (Integer key : runIndexMap.keySet()) {
-        List<Integer> r = runIndexMap.get(key);
-        if (r.size() == 4) {
-          // put the joker at high end
-          return r.get(0);
-        }
-        else {
-          int index = r.get(r.size() - 1);
-          List<Integer> next = runIndexMap.get(cards.get(index).getRank() + 2);
-          if (next != null && r.size() + next.size() >= 4) {
-            return r.get(0);
-          }
-        }
-      }
-    }
-    return -1;
-  }
-
-  /**
    * @return the number of aces in the hand.
    */
   private int numAces() {
@@ -1713,27 +1690,6 @@ public final class PaiGowHand extends Hand {
   }
 
   /**
-   * Put the pair in the low hand.
-   */
-  private void playPairUp() {
-    int pairIndex = -1;
-    for (int i = 0; i < cards.size() - 1; i++) {
-      if (cards.get(i).getRank() == cards.get(i + 1).getRank()) {
-        pairIndex = i;
-        break;
-      }
-    }
-    for (int i = 0; i < pairIndex; i++) {
-      highHand.add(cards.get(i));
-    }
-    lowHand.add(cards.get(pairIndex));
-    lowHand.add(cards.get(pairIndex + 1));
-    for (int i = pairIndex + 2; i < cards.size(); i++) {
-      highHand.add(cards.get(i));
-    }
-  }
-
-  /**
    * Set the hand for a Royal Flush.
    * 
    * Royal Flush:
@@ -2127,22 +2083,5 @@ public final class PaiGowHand extends Hand {
       highHand.add(temp.get(1));
       highHand.add(temp.get(0));
     }
-  }
-
-  /**
-   * @return The starting index of a straight.
-   */
-  private int pureStraightIndex() {
-    Collections.sort(cards);
-    for (int i = 0; i < 3; i++) {
-      ArrayList<ICard> temp = new ArrayList<ICard>();
-      for (int j = 0; j < 5; j++) {
-        temp.add(cards.get(i + j));
-      }
-      if (Card.isStraight(temp)) {
-        return i;
-      }
-    }
-    return -1;
   }
 }
