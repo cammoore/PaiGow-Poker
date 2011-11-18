@@ -5,9 +5,9 @@ package org.cam.paigow;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
+
 import org.cam.card.HandResult;
 import org.cam.card.PaiGowDeck;
-import org.cam.card.PaiGowFortunePayout;
 import org.cam.card.PaiGowHand;
 
 /**

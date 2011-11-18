@@ -6,11 +6,10 @@ package org.cam.paigow;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Iterator;
+
 import org.cam.utilities.statistics.Binner;
 import org.cam.utilities.statistics.DataSequence;
-import org.cam.utilities.statistics.LinearRegression;
-import org.cam.utilities.statistics.LogarithmicRegression;
+
 
 /**
  * @author Cam Moore

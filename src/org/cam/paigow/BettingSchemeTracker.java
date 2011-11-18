@@ -9,7 +9,6 @@ package org.cam.paigow;
  */
 public class BettingSchemeTracker {
   private Double minBet;
-  private Integer rounds;
   private Double[] currentBet;
   private Double[] stake;
   private Double[] fortuneStake;

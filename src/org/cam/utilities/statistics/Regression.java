@@ -193,8 +193,8 @@ public abstract class Regression {
     double varianceVal = getVariance();
     double stdDevVal = Math.sqrt(varianceVal);
 
-    for (Iterator j = this.xDataSequence.iterator(); j.hasNext(); ) {
-      double next = ((Number) j.next()).doubleValue();
+    for (Iterator<Number> j = this.xDataSequence.iterator(); j.hasNext(); ) {
+      double next = j.next().doubleValue();
       tRange70 += (next - mean) * (next - mean);
     }
 
@@ -222,11 +222,11 @@ public abstract class Regression {
     double vTemp = 0;
     double vHold = 0;
     
-    Iterator i = this.xDataSequence.iterator();
-    Iterator j = this.yDataSequence.iterator();
+    Iterator<Number> i = this.xDataSequence.iterator();
+    Iterator<Number> j = this.yDataSequence.iterator();
     while (i.hasNext()) {
-      vTemp = (((Number) j.next()).doubleValue() - 
-        getPredictedY(((Number) i.next()).doubleValue()));
+      vTemp = (j.next().doubleValue() - 
+        getPredictedY(i.next().doubleValue()));
       vHold = vHold + (vTemp * vTemp);
     }
     return (1 / (double) (getSize() - 2)) * vHold;

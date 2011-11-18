@@ -3,7 +3,6 @@
  */
 package org.cam.paigow;
 
-import java.util.ArrayList;
 import org.cam.card.HandResult;
 import org.cam.card.PaiGowDeck;
 import org.cam.card.PaiGowFortunePayout;

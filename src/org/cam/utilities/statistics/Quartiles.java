@@ -31,9 +31,8 @@ public class Quartiles {
     int index = 0;
     this.values = new double[data.getSize()];
     
-    for (Iterator i = data.iterator(); i.hasNext();) {
-      Number num = (Number) i.next();
-      values[index++] = num.doubleValue();
+    for (Iterator<Number> i = data.iterator(); i.hasNext();) {
+      values[index++] = i.next().doubleValue();
     }
     
     // Sort the array.

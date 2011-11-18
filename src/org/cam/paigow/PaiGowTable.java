@@ -3,7 +3,6 @@
  */
 package org.cam.paigow;
 
-import org.cam.card.HandResult;
 import org.cam.card.PaiGowDeck;
 import org.cam.card.PaiGowHand;
 
@@ -15,9 +14,11 @@ public class PaiGowTable {
   public static final int NUM_SEATS = 6;
   private PaiGowSeat[] seats;
   private PaiGowDeck deck;
+  private int iterIndex;
   
   
   public PaiGowTable() {
+  	this.iterIndex = 0;
     this.seats = new PaiGowSeat[6];
     for (int i = 0; i < 6; i++) {
       seats[i] = new PaiGowSeat();

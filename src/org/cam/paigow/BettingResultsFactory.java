@@ -3,7 +3,6 @@
  */
 package org.cam.paigow;
 
-import org.cam.card.HandResult;
 
 /**
  * @author Cam Moore

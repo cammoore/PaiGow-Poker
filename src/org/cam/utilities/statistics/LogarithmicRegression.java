@@ -138,8 +138,9 @@ public class LogarithmicRegression extends Regression {
     double varianceVal = getVariance();
     double stdDevVal = Math.sqrt(varianceVal);
 
-    for (Iterator j = this.originalXValues.iterator(); j.hasNext(); ) {
-      double next = ((Number) j.next()).doubleValue();
+
+    for (Iterator<Number> j = this.originalXValues.iterator(); j.hasNext(); ) {
+      double next = j.next().doubleValue();
       tRange70 += ((next - mean) * (next - mean));
     }
 

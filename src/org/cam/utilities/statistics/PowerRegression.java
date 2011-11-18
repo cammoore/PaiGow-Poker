@@ -142,8 +142,8 @@ public class PowerRegression extends Regression {
     double varianceVal = getVariance();
     double stdDevVal = Math.sqrt(varianceVal);
 
-    for (Iterator j = this.originalXValues.iterator(); j.hasNext(); ) {
-      double next = ((Number) j.next()).doubleValue();
+    for (Iterator<Number> j = this.originalXValues.iterator(); j.hasNext(); ) {
+      double next = j.next().doubleValue();
       tRange70 += (next - mean) * (next - mean);
     }
 
@@ -171,11 +171,11 @@ public class PowerRegression extends Regression {
     double vTemp = 0;
     double vHold = 0;
 
-    Iterator i = this.xDataSequence.iterator();
-    Iterator j = this.originalYValues.iterator();
+    Iterator<Number> i = this.xDataSequence.iterator();
+    Iterator<Number> j = this.originalYValues.iterator();
     while (j.hasNext()) {
-      vTemp = (((Number) j.next()).doubleValue() - 
-        getPredictedY(((Number) i.next()).doubleValue()));
+      vTemp = j.next().doubleValue() - 
+        getPredictedY(i.next().doubleValue());
       vHold = vHold + (vTemp * vTemp);
     }
     return (1 / (double) (getSize() - 2)) * vHold;

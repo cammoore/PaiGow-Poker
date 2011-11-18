@@ -1,0 +1,37 @@
+Bally's Atlantic City
+No Pair: Always play the highest ranked card in the high hand. Use the second and third highest ranked cards in the low hand.
+One Pair: Always play the pair in the high hand. Use the two highest ranked cards in the low hand.
+Two Pairs: Low Pair - 2 thru 6
+Mid Pair - 7 thru 10
+High Pair - Jacks thru Kings
+
+    Low Pair - Low Pair OR Low Pair - Mid Pair: Split the pairs ... except when the hand contains King or Ace.
+    Low Pair - High Pair OR Mid Pair - Mid Pair: Split the pairs ... except when the hand contains an Ace.
+    Mid Pair - High Pair OR High Pair - High Pair: Always split.
+    Aces - any other pair: Always split. 
+
+Three Pairs: Always play the highest pair in the low hand.
+Three-of-a-kind: Always play in high hand ... except with three Aces, play pair of Aces in high hand and one Ace in low hand.
+Two three-of-a-kinds: Play pair of highest three-of-a-kind in the low hand.
+Straights, Flushes, Straight Flushes and Royal Flushes:
+When the hand contains a choice of a Straight, Flush or Straight Flush, play the hand which allows the highest two cards to be played in the low hand that will preserve the Straight, Flush, or Straight Flush.
+Exception: When the hand contains a Straight or Straight Flush which is Ace High and includes a Joker, play pair of Aces in the high hand and next two highest cards in the low hand. (Unless the high hand contains Ace and a Joker to make 2nd highest Straight play A,2,3,4,5).
+If the hand can be played as a lower Straight, play the Straight.
+With One Pair: Play the pair in the front if a Straight or Flush can be played in the high hand.
+With Two Pairs: Refer to the two pairs rule.
+With Three Pairs: Refer to the three pairs rule.
+With Three-of-a-kind: Play the pair in the low hand.
+With Full House: Refer to the full house rule.
+Full House:
+When the hand contains three-of-a-kind and a pair (Full House), always split the pair in the low hand.
+Exception: A full house with a pair of 2's and an Ace and King, play Ace King in the low hand and keep full house in high hand.
+When the hand contains three-of-a-kind and two pairs, play the highest pair in the low hand.
+Four-of-a-kind:
+When the hand contains four-of-a-kind, twos thru nines, never split.
+When the hand contains four-of-a-kind, tens thru kings, split except when an Ace can be played in the low hand. In this case play the four-of-a-kind in the high hand.
+When the hand contains four Aces always split.
+Exception: When the hand contains four Aces and a pair of Kings, play the Kings in the low hand and keep the four Aces in the high hand.
+When the hand contains four-of-a-kind with a pair or three-of-a-kind, play pair in the low hand and four-of-a-kind in the high hand.
+Five Aces:
+When the hand contains five aces, always split. Play two Aces in the low hand.
+Exception: With five Aces and a pair of Kings, play the Kings in the low hand, Aces in the high hand.

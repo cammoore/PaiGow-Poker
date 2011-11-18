@@ -23,9 +23,6 @@ public class Binner implements Iterable<Integer> {
     calcBins(seq);
   }
   
-  private Binner() {
-    
-  }
   /**
    * 
    * @return

@@ -3,9 +3,7 @@
  */
 package org.cam.paigow;
 
-import org.cam.card.HandResult;
 import org.cam.card.PaiGowFortunePayout;
-import org.cam.card.PaiGowHand;
 
 /**
  * @author Cam Moore

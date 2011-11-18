@@ -8,7 +8,6 @@ package org.cam.paigow;
  *
  */
 public class BettingResults {
-  private Double minBet;
   private BettingSchemeTracker[] tracker;
   private Integer[] wins;
   private Integer[] winStreak;
@@ -21,7 +20,6 @@ public class BettingResults {
   private Integer[] envies;
   
   public BettingResults(Double startingStake, Double minBet) {
-    this.minBet = minBet;
     this.tracker = new BettingSchemeTracker[6];
     this.wins = new Integer[6];
     this.winStreak = new Integer[6];

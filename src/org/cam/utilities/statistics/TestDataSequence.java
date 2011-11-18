@@ -33,9 +33,9 @@ public class TestDataSequence extends TestCase {
                  sequence.getStandardDeviation(), 0.05);
     assertEquals("Checking the sum of squares of sequence", 30, sequence.getSumOfSquares(), 0);
 
-    Iterator i = sequence.iterator();
+    Iterator<Number> i = sequence.iterator();
     assertEquals("Checking the first element in sequence", 4,
-                 ((Number) i.next()).intValue());
+                 i.next().intValue());
 
     // check the toString method
     String toString = sequence.toString();
