@@ -16,13 +16,6 @@ public class Hand {
 
   /**
    * Constructs a Hand instance.
-   */
-  protected Hand() {
-    this.cards = new ArrayList<ICard>();
-  }
-  
-  /**
-   * Constructs a Hand instance.
    * @param d The Deck to use.
    * @param numCards the number of cards in the hand.
    */
@@ -33,6 +26,13 @@ public class Hand {
         cards.add(d.next());
       }
     }
+  }
+  
+  /**
+   * Constructs a Hand instance.
+   */
+  protected Hand() {
+    this.cards = new ArrayList<ICard>();
   }
 
   
@@ -48,24 +48,24 @@ public class Hand {
   }
 
   /**
+   * @return true if the hand has a four of a kind.
+   */
+  public boolean hasFourOfAKind() {
+    return Card.hasFourOfAKind(cards);
+  }
+
+  /**
+   * @return true if the hand has a full house.
+   */
+  public boolean hasFullHouse() {
+    return Card.hasFullHouse(cards);
+  }
+  
+  /**
    * @return true if the hand has a pair.
    */
   public boolean hasPair() {
     return Card.hasPair(cards);
-  }
-
-  /**
-   * @return true if the hand has two pair.
-   */
-  public boolean hasTwoPair() {
-    return Card.hasTwoPair(cards);
-  }
-  
-  /**
-   * @return true if the hand has three pair.
-   */
-  public boolean hasThreePair() {
-    return Card.hasThreePair(cards);
   }
   
   /**
@@ -76,10 +76,17 @@ public class Hand {
   }
 
   /**
-   * @return true if the hand has a full house.
+   * @return true if the hand has three pair.
    */
-  public boolean hasFullHouse() {
-    return Card.hasFullHouse(cards);
+  public boolean hasThreePair() {
+    return Card.hasThreePair(cards);
+  }
+
+  /**
+   * @return true if the hand has two pair.
+   */
+  public boolean hasTwoPair() {
+    return Card.hasTwoPair(cards);
   }
 
   /**
@@ -87,6 +94,13 @@ public class Hand {
    */
   public boolean isFlush() {
     return Card.isFlush(cards);
+  }
+
+  /**
+   * @return true if the hand is a royal flush.
+   */
+  public boolean isRoyalFlush() {
+    return Card.isRoyalFlush(cards);
   }
 
   /**
@@ -101,20 +115,6 @@ public class Hand {
    */
   public boolean isStraightFlush() {
     return Card.isStraightFlush(cards);
-  }
-
-  /**
-   * @return true if the hand is a royal flush.
-   */
-  public boolean isRoyalFlush() {
-    return Card.isRoyalFlush(cards);
-  }
-
-  /**
-   * @return true if the hand has a four of a kind.
-   */
-  public boolean hasFourOfAKind() {
-    return Card.hasFourOfAKind(cards);
   }
 
   /**

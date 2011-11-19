@@ -70,7 +70,7 @@ public class PaiGowTable {
     PaiGowHand playerHand;
     for (int i = 1; i < 7; i++) {
       playerHand = hands[i];
-      PaiGowHandResult result = new PaiGowHandResult(playerHand.beats(dealerHand), playerHand);
+      PaiGowHandResult result = new PaiGowHandResult(playerHand.compareToBanker(dealerHand), playerHand);
       results[i - 1] = result;
       seats[i - 1].addRoundInfo(result);
       for (int j = 0; j < 6; j++) {

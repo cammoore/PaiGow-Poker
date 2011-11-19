@@ -81,7 +81,7 @@ public class PaiGowMain {
         // logger.info("Seat " + seat + " has " + playerHand + " " +
         // playerHand.description()
         // + " " + playerHand.rawCards());
-        HandResult winHand = playerHand.beats(dealerHand);
+        HandResult winHand = playerHand.compareToBanker(dealerHand);
         switch (winHand) {
         case LOSE:
           // logger.info("Player loses");
