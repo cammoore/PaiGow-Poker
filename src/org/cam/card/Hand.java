@@ -16,6 +16,7 @@ public class Hand {
 
   /**
    * Constructs a Hand instance.
+   * 
    * @param d The Deck to use.
    * @param numCards the number of cards in the hand.
    */
@@ -27,7 +28,19 @@ public class Hand {
       }
     }
   }
-  
+
+  /**
+   * Constructs a Hand instance from the list of cards.
+   * 
+   * @param cards a List of cards.
+   */
+  public Hand(List<ICard> cards) {
+    this.cards = new ArrayList<ICard>();
+    for (ICard c : cards) {
+      this.cards.add(c);
+    }
+  }
+
   /**
    * Constructs a Hand instance.
    */
@@ -35,7 +48,6 @@ public class Hand {
     this.cards = new ArrayList<ICard>();
   }
 
-  
   /**
    * @return The cards value a List<ICard>.
    */
@@ -60,14 +72,14 @@ public class Hand {
   public boolean hasFullHouse() {
     return Card.hasFullHouse(cards);
   }
-  
+
   /**
    * @return true if the hand has a pair.
    */
   public boolean hasPair() {
     return Card.hasPair(cards);
   }
-  
+
   /**
    * @return true if the hand has a three of a kind.
    */

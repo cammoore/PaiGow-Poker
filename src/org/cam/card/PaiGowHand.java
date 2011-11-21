@@ -19,10 +19,8 @@ public final class PaiGowHand extends Hand {
   private List<ICard> lowHand;
   private List<ICard> highHand;
 
-//  private Map<Integer, ArrayList<Integer>> runMap;
-//  private Map<Integer, ArrayList<Integer>> runIndexMap;
-//  private Map<Integer, ArrayList<Integer>> gapIndexMap;
-
+  private Hand rawCards;
+  
   /**
    * Constructs a PaiGaoHand instance.
    * 
@@ -30,6 +28,7 @@ public final class PaiGowHand extends Hand {
    */
   public PaiGowHand(List<ICard> c) {
     assert (c.size() == 7);
+    this.rawCards = new Hand(c);
     lowHand = new ArrayList<ICard>();
     highHand = new ArrayList<ICard>();
     for (ICard card : c) {
@@ -46,6 +45,7 @@ public final class PaiGowHand extends Hand {
    */
   public PaiGowHand(PaiGowDeck d) {
     super(d, 7);
+    this.rawCards = new Hand(this.cards);
     lowHand = new ArrayList<ICard>();
     highHand = new ArrayList<ICard>();
     houseWay();
@@ -352,24 +352,24 @@ public final class PaiGowHand extends Hand {
    */
   public String description() {
     StringBuilder sb = new StringBuilder();
-    if (isPaiGao()) {
+    if (isPaiGow()) {
       if (isNineHighPaiGao()) {
-        sb.append("9 high pai gao");
+        sb.append("9 high pai gow");
       }
       if (isTenHighPaiGao()) {
-        sb.append("10 high pai gao");
+        sb.append("10 high pai gow");
       }
       if (isJackHighPaiGao()) {
-        sb.append("Jack high pai gao");
+        sb.append("Jack high pai gow");
       }
       if (isQueenHighPaiGao()) {
-        sb.append("Queen high pai gao");
+        sb.append("Queen high pai gow");
       }
       if (isKingHighPaiGao()) {
-        sb.append("King high pai gao");
+        sb.append("King high pai gow");
       }
       if (isAceHighPaiGao()) {
-        sb.append("Ace high pai gao");
+        sb.append("Ace high pai gow");
       }
     }
     else {
@@ -434,16 +434,17 @@ public final class PaiGowHand extends Hand {
   }
 
   public boolean has7CardStraightFlush() {
-    boolean ret = false;
-    Collections.sort(cards);
-    ArrayList<ICard> temp = new ArrayList<ICard>();
-    for (int j = 0; j < 7; j++) {
-      temp.add(cards.get(j));
-    }
-    if (Card.isStraight(temp) && Card.isFlush(temp)) {
-      ret = true;
-    }
-    return ret;
+    return rawCards.isStraightFlush();
+//    boolean ret = false;
+//    Collections.sort(cards);
+//    ArrayList<ICard> temp = new ArrayList<ICard>();
+//    for (int j = 0; j < 7; j++) {
+//      temp.add(cards.get(j));
+//    }
+//    if (Card.isStraight(temp) && Card.isFlush(temp)) {
+//      ret = true;
+//    }
+//    return ret;
   }
 
   /**
@@ -881,7 +882,7 @@ public final class PaiGowHand extends Hand {
    */
   public boolean isAceHighPaiGao() {
     Collections.sort(cards);
-    return cards.get(cards.size() - 1).getRank() == 14 & isPaiGao();
+    return cards.get(cards.size() - 1).getRank() == 14 & isPaiGow();
   }
 
   /**
@@ -899,7 +900,7 @@ public final class PaiGowHand extends Hand {
    */
   public boolean isJackHighPaiGao() {
     Collections.sort(cards);
-    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 11 & isPaiGao();
+    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 11 & isPaiGow();
   }
 
   /**
@@ -907,7 +908,7 @@ public final class PaiGowHand extends Hand {
    */
   public boolean isKingHighPaiGao() {
     Collections.sort(cards);
-    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 13 & isPaiGao();
+    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 13 & isPaiGow();
   }
 
   /**
@@ -915,13 +916,13 @@ public final class PaiGowHand extends Hand {
    */
   public boolean isNineHighPaiGao() {
     Collections.sort(cards);
-    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 9 & isPaiGao();
+    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 9 & isPaiGow();
   }
 
   /**
    * @return true if hand is paigao.
    */
-  public boolean isPaiGao() {
+  public boolean isPaiGow() {
     boolean ret = false;
     ret = ret || hasPair();
     ret = ret || hasThreeOfAKind();
@@ -936,7 +937,7 @@ public final class PaiGowHand extends Hand {
    */
   public boolean isQueenHighPaiGao() {
     Collections.sort(cards);
-    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 12 & isPaiGao();
+    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 12 & isPaiGow();
   }
 
   /**
@@ -982,7 +983,7 @@ public final class PaiGowHand extends Hand {
    */
   public boolean isTenHighPaiGao() {
     Collections.sort(cards);
-    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 10 & isPaiGao();
+    return !isAceHighPaiGao() && cards.get(cards.size() - 1).getRank() == 10 & isPaiGow();
   }
 
   /**
@@ -994,6 +995,20 @@ public final class PaiGowHand extends Hand {
     return sb.toString();
   }
 
+  public void setHighHand(List <ICard> high) {
+    assert(high.size() == 5);
+    assert(cards.containsAll(high));
+    highHand.clear();
+    highHand.addAll(high);
+  }
+  
+  public void setLowHand(List <ICard> low) {
+    assert(low.size() == 2);
+    assert(cards.containsAll(low));
+    lowHand.clear();
+    lowHand.addAll(low);
+  }
+  
   /**
    * 
    * @return The String representation of the hand.
@@ -1172,7 +1187,7 @@ public final class PaiGowHand extends Hand {
    */
   private void houseWay() {
     try {
-      if (isPaiGao()) {
+      if (isPaiGow()) {
         playPaiGao();
       }
       else {
