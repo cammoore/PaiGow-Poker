@@ -442,7 +442,7 @@ public class FlamingoHouseWayTest {
     hand = new PaiGowHand(cards);
     house.setHand(hand);
     System.out.println(hand + " " + hand.description());
-    assertTrue(hand.description().equals("Three of a Kind"));
+    assertTrue(hand.description().equals("Full House"));
     low = hand.getLowHand();
     assertTrue(low.size() == 2);
     assertTrue(low.get(0).getRank() == ICard.SIX);
@@ -456,4 +456,97 @@ public class FlamingoHouseWayTest {
     assertTrue(high.get(4).getRank() == ICard.FOUR);
 
   }
+  
+  @Test
+  public void testTwoPair() {
+    // Two pair: Split the two pair except for the following three situations
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.THREE));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.THREE));
+    cards.add(new Card(ICard.HEARTS, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.SEVEN));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Two Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.THREE);
+    assertTrue(low.get(1).getRank() == ICard.THREE);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.JACK);
+    assertTrue(high.get(1).getRank() == ICard.JACK);
+
+    // No split Both pairs are 6's or less.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.HEARTS, ICard.THREE));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.THREE));
+    cards.add(new Card(ICard.HEARTS, ICard.FIVE));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.SEVEN));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Two Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.NINE);
+    assertTrue(low.get(1).getRank() == ICard.SEVEN);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.FIVE);
+    assertTrue(high.get(1).getRank() == ICard.FIVE);
+    
+    // No split Both pairs are 10's or less plus ace singleton.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.HEARTS, ICard.TEN));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.HEARTS, ICard.ACE));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.FIVE));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Two Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.ACE);
+    assertTrue(low.get(1).getRank() == ICard.NINE);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.TEN);
+    assertTrue(high.get(1).getRank() == ICard.TEN);
+    assertTrue(high.get(2).getRank() == ICard.FIVE);
+
+    // One pair of face cards, one pair of 5's or less, and an ace singleton.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.HEARTS, ICard.JACK));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.ACE));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.FIVE));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Two Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.ACE);
+    assertTrue(low.get(1).getRank() == ICard.NINE);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.JACK);
+    assertTrue(high.get(1).getRank() == ICard.JACK);
+    assertTrue(high.get(2).getRank() == ICard.FIVE);
+}
 }
