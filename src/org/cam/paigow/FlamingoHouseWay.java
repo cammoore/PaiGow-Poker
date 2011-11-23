@@ -351,8 +351,6 @@ public class FlamingoHouseWay implements IHouseWay {
       // * Jack through king: Split unless hand also contains a pair of 10's
       // or higher.
       if (pair && pairRank > ICard.NINE) {
-        lowHand.add(cards.get(pairIndex));
-        lowHand.add(cards.get(pairIndex));
         highHand.add(cards.get(startIndex));
         highHand.add(cards.get(startIndex + 1));
         highHand.add(cards.get(startIndex + 2));
@@ -479,7 +477,7 @@ public class FlamingoHouseWay implements IHouseWay {
         }
       }
     }
-    System.out.println("low " + lowHand + " high "+ highHand);
+//    System.out.println("low " + lowHand + " high "+ highHand);
     hand.setLowHand(lowHand);
     hand.setHighHand(highHand);
   }
@@ -496,8 +494,123 @@ public class FlamingoHouseWay implements IHouseWay {
    */
   @Override
   public void playFullHouse(PaiGowHand hand) {
-    // TODO Auto-generated method stub
-
+    // Full house: Split except with pair of 2's and an ace/king can be played
+    // in front.
+    //
+    // Full house with three of a kind and two pairs: Play the highest pair in
+    // front.
+    // Always fivecard the three of a kind and twocard the pair.
+    this.cards.clear();
+    for (ICard c : hand.getCards()) {
+      cards.add(c);
+    }
+    Collections.reverse(cards);
+    lowHand.clear();
+    highHand.clear();
+    int tripIndex = -1;
+    int tripRank = -1;
+    int pairIndex = -1;
+    int pairRank = -1;
+    for (int i = 0; i < cards.size() - 2; i++) {
+      if (cards.get(i).getRank() == cards.get(i + 1).getRank()
+          && cards.get(i + 1).getRank() == cards.get(i + 2).getRank()) {
+        tripIndex = i;
+        tripRank = cards.get(i).getRank();
+        break;
+      }
+    }
+    for (int i = 0; i < cards.size() - 1; i++) {
+      if (cards.get(i).getRank() == cards.get(i + 1).getRank() && i != tripIndex
+          && i != tripIndex + 1) {
+        pairIndex = i;
+        pairRank = cards.get(i).getRank();
+        break;
+      }
+    }
+    if (pairRank == ICard.TWO && 
+        tripRank != ICard.KING &&
+        tripRank != ICard.ACE) {
+      // check to see if we have ACE and KING
+      int kingIndex = -1;
+      int aceIndex = -1;
+      for (int i = 0; i < cards.size(); i++) {
+        if (cards.get(i).getRank() == ICard.KING) {
+          kingIndex = i;
+        }
+        if (cards.get(i).getRank() == ICard.ACE) {
+          aceIndex = i;
+        }
+      }
+      if (kingIndex != -1 && aceIndex != -1) {
+        // found ace and king put them in low hand
+        lowHand.add(cards.get(aceIndex));
+        lowHand.add(cards.get(kingIndex));
+        highHand.add(cards.get(pairIndex));
+        highHand.add(cards.get(pairIndex + 1));
+        highHand.add(cards.get(tripIndex));
+        highHand.add(cards.get(tripIndex + 1));
+        highHand.add(cards.get(tripIndex + 2));        
+      } else {
+        // didn't find ace and king use twos.
+        lowHand.add(cards.get(pairIndex));
+        lowHand.add(cards.get(pairIndex + 1));
+        highHand.add(cards.get(tripIndex));
+        highHand.add(cards.get(tripIndex + 1));
+        highHand.add(cards.get(tripIndex + 2));
+        if (pairIndex < tripIndex) {
+          for (int i = 0; i < pairIndex; i++) {
+            highHand.add(cards.get(i));
+          }
+          for (int i = pairIndex + 2; i < tripIndex; i++) {
+            highHand.add(cards.get(i));
+          }
+          for (int i = tripIndex + 3; i < cards.size(); i++) {
+            highHand.add(cards.get(i));
+          }
+        }
+        else {
+          for (int i = 0; i < tripIndex; i++) {
+            highHand.add(cards.get(i));
+          }
+          for (int i = tripIndex + 3; i < pairIndex; i++) {
+            highHand.add(cards.get(i));
+          }
+          for (int i = pairIndex + 2; i < cards.size(); i++) {
+            highHand.add(cards.get(i));
+          }
+        }        
+      }
+    } else {
+      lowHand.add(cards.get(pairIndex));
+      lowHand.add(cards.get(pairIndex + 1));
+      highHand.add(cards.get(tripIndex));
+      highHand.add(cards.get(tripIndex + 1));
+      highHand.add(cards.get(tripIndex + 2));
+      if (pairIndex < tripIndex) {
+        for (int i = 0; i < pairIndex; i++) {
+          highHand.add(cards.get(i));
+        }
+        for (int i = pairIndex + 2; i < tripIndex; i++) {
+          highHand.add(cards.get(i));
+        }
+        for (int i = tripIndex + 3; i < cards.size(); i++) {
+          highHand.add(cards.get(i));
+        }
+      }
+      else {
+        for (int i = 0; i < tripIndex; i++) {
+          highHand.add(cards.get(i));
+        }
+        for (int i = tripIndex + 3; i < pairIndex; i++) {
+          highHand.add(cards.get(i));
+        }
+        for (int i = pairIndex + 2; i < cards.size(); i++) {
+          highHand.add(cards.get(i));
+        }
+      }
+    }
+    hand.setLowHand(lowHand);
+    hand.setHighHand(highHand);
   }
 
   /**
@@ -560,14 +673,131 @@ public class FlamingoHouseWay implements IHouseWay {
   }
 
   /**
+   * Three of a kind: Play three of a kind in back except break up three
+   * aces.
+   *
+   * Three of a kind twice: Play higher pair in front.
    * 
    * @param hand
    * @see org.cam.card.IHouseWay#playThreeOfAKind(org.cam.card.PaiGowHand)
    */
   @Override
   public void playThreeOfAKind(PaiGowHand hand) {
-    // TODO Auto-generated method stub
+    // Three of a kind: Play three of a kind in back except break up three
+    // aces.
+    //
+    // Three of a kind twice: Play higher pair in front.
+    this.cards.clear();
+    for (ICard c : hand.getCards()) {
+      cards.add(c);
+    }
+    Collections.reverse(cards);
+    lowHand.clear();
+    highHand.clear();
 
+    int tripIndex1 = -1;
+    int tripIndex2 = -1;
+    int tripRank1 = -1;
+    int tripRank2 = -1;
+    for (int i = 0; i < cards.size() - 2; i++) {
+      if (cards.get(i).getRank() == cards.get(i + 1).getRank()
+          && cards.get(i + 1).getRank() == cards.get(i + 2).getRank()) {
+        if (tripIndex1 == -1) {
+          tripIndex1 = i;
+          tripRank1 = cards.get(i).getRank();
+        } else {
+          tripIndex2 = i;
+          tripRank2 = cards.get(i).getRank();
+        }
+      }
+    }
+    if (tripIndex1 > -1) {  // found natural triple
+      if (tripIndex2 == -1) { // no second triple
+        if (tripRank1 != ICard.ACE) {
+          highHand.add(cards.get(tripIndex1));
+          highHand.add(cards.get(tripIndex1 + 1));
+          highHand.add(cards.get(tripIndex1 + 2));
+          if (tripIndex1 > 1) {
+            lowHand.add(cards.get(0));
+            lowHand.add(cards.get(1));
+            for (int i = 2; i < tripIndex1; i++) {
+              highHand.add(cards.get(i));
+            }
+            for (int i = tripIndex1 + 3; i < cards.size(); i++) {
+              highHand.add(cards.get(i));
+            }
+          }
+          else if (tripIndex1 == 1) {
+            lowHand.add(cards.get(0));
+            lowHand.add(cards.get(tripIndex1 + 3));
+            for (int i = tripIndex1 + 4; i < cards.size(); i++) {
+              highHand.add(cards.get(i));
+            }
+          }
+          else if (tripIndex1 == 0) {
+            lowHand.add(cards.get(tripIndex1 + 3));
+            lowHand.add(cards.get(tripIndex1 + 4));
+            for (int i = tripIndex1 + 5; i < cards.size(); i++) {
+              highHand.add(cards.get(i));
+            }
+          }
+        } else {
+          // split aces
+          lowHand.add(cards.get(tripIndex1));
+          highHand.add(cards.get(tripIndex1 + 1));
+          highHand.add(cards.get(tripIndex1 + 2));
+          if (tripIndex1 > 1) {
+            lowHand.add(cards.get(0));
+            for (int i = 1; i < tripIndex1; i++) {
+              highHand.add(cards.get(i));
+            }
+            for (int i = tripIndex1 + 3; i < cards.size(); i++) {
+              highHand.add(cards.get(i));
+            }
+          }
+          else if (tripIndex1 == 1) {
+            lowHand.add(cards.get(0));
+            for (int i = tripIndex1 + 3; i < cards.size(); i++) {
+              highHand.add(cards.get(i));
+            }
+          }
+          else if (tripIndex1 == 0) {
+            lowHand.add(cards.get(tripIndex1 + 3));
+            for (int i = tripIndex1 + 4; i < cards.size(); i++) {
+              highHand.add(cards.get(i));
+            }
+          }
+        }
+      } else {
+        // found two tripples
+        lowHand.add(cards.get(tripIndex1));
+        lowHand.add(cards.get(tripIndex1 + 1));
+        highHand.add(cards.get(tripIndex2));
+        highHand.add(cards.get(tripIndex2 + 1));
+        highHand.add(cards.get(tripIndex2 + 2));
+        highHand.add(cards.get(tripIndex1 + 2));
+        if (tripIndex1 > 0) {
+          highHand.add(cards.get(0));
+        } else if (tripIndex2 == tripIndex1 + 3) {
+          highHand.add(cards.get(6));
+        } else {
+          highHand.add(cards.get(3));
+        }
+      }
+    }
+    else {
+      // made three of a kind with joker
+      lowHand.add(cards.get(2));
+      lowHand.add(cards.get(3));
+      highHand.add(cards.get(0));
+      highHand.add(cards.get(1));
+      highHand.add(cards.get(6));
+      highHand.add(cards.get(4));
+      highHand.add(cards.get(5));
+    }
+    System.out.println("low " + lowHand + " high "+ highHand);
+    hand.setLowHand(lowHand);
+    hand.setHighHand(highHand);
   }
 
   /**
