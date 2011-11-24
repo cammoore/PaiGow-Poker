@@ -376,7 +376,7 @@ public class FlamingoHouseWayTest {
     assertTrue(high.get(3).getRank() == ICard.TWO);
     assertTrue(high.get(4).getRank() == ICard.TWO);
   }
-  
+
   @Test
   public void testThreeOfAKind() {
     // Three of a kind: Play three of a kind in back except break up three
@@ -456,7 +456,7 @@ public class FlamingoHouseWayTest {
     assertTrue(high.get(4).getRank() == ICard.FOUR);
 
   }
-  
+
   @Test
   public void testTwoPair() {
     // Two pair: Split the two pair except for the following three situations
@@ -481,6 +481,27 @@ public class FlamingoHouseWayTest {
     assertTrue(high.get(0).getRank() == ICard.JACK);
     assertTrue(high.get(1).getRank() == ICard.JACK);
 
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.QUEEN));
+    cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.ACE));
+    cards.add(new Card(ICard.HEARTS, ICard.QUEEN));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.SEVEN));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue("Got " + hand.description() + " expecting Two Pair", hand.description().equals("Two Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.QUEEN);
+    assertTrue(low.get(1).getRank() == ICard.QUEEN);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.ACE);
+    assertTrue(high.get(1).getRank() == ICard.JOKER);
+
     // No split Both pairs are 6's or less.
     cards = new ArrayList<ICard>();
     cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
@@ -502,7 +523,7 @@ public class FlamingoHouseWayTest {
     assertTrue(high.size() == 5);
     assertTrue(high.get(0).getRank() == ICard.FIVE);
     assertTrue(high.get(1).getRank() == ICard.FIVE);
-    
+
     // No split Both pairs are 10's or less plus ace singleton.
     cards = new ArrayList<ICard>();
     cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
@@ -548,5 +569,173 @@ public class FlamingoHouseWayTest {
     assertTrue(high.get(0).getRank() == ICard.JACK);
     assertTrue(high.get(1).getRank() == ICard.JACK);
     assertTrue(high.get(2).getRank() == ICard.FIVE);
-}
+  }
+  
+  @Test
+  public void testPair() {
+    // One pair: Place the pair in back and the two highest singletons in the
+    // front.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.HEARTS, ICard.JACK));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.ACE));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.TWO));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.ACE);
+    assertTrue(low.get(1).getRank() == ICard.NINE);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.JACK);
+    assertTrue(high.get(1).getRank() == ICard.JACK);
+    assertTrue(high.get(2).getRank() == ICard.SIX);
+    assertTrue(high.get(3).getRank() == ICard.FIVE);
+    assertTrue(high.get(4).getRank() == ICard.TWO);
+
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.ACE));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.TWO));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.JACK);
+    assertTrue(low.get(1).getRank() == ICard.NINE);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.ACE);
+    assertTrue(high.get(1).getRank() == ICard.JOKER);
+    assertTrue(high.get(2).getRank() == ICard.SIX);
+    assertTrue(high.get(3).getRank() == ICard.FIVE);
+    assertTrue(high.get(4).getRank() == ICard.TWO);
+  }
+  
+  @Test
+  public void testThreePair() {
+    // Three pair: Play highest pair in front.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.CLUBS, ICard.JACK));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.SIX));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Three Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.JACK);
+    assertTrue(low.get(1).getRank() == ICard.JACK);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.NINE);
+    assertTrue(high.get(1).getRank() == ICard.NINE);
+    assertTrue(high.get(2).getRank() == ICard.SIX);
+    assertTrue(high.get(3).getRank() == ICard.SIX);
+    assertTrue(high.get(4).getRank() == ICard.FIVE);
+
+    
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
+    cards.add(new Card(ICard.DIAMONDS, ICard.FIVE));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.ACE));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.CLUBS, ICard.NINE));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Three Pair"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.ACE);
+    assertTrue(low.get(1).getRank() == ICard.JOKER);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.NINE);
+    assertTrue(high.get(1).getRank() == ICard.NINE);
+    assertTrue(high.get(2).getRank() == ICard.FIVE);
+    assertTrue(high.get(3).getRank() == ICard.FIVE);
+    assertTrue(high.get(4).getRank() == ICard.JACK);
+
+  }
+  
+  @Test
+  public void testRoyalFlush() {
+    // Play the royal flush in back except play as a two pair with:
+    // Aces and any other pair.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.SPADES, ICard.QUEEN));
+    cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
+    cards.add(new Card(ICard.SPADES, ICard.KING));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.SPADES, ICard.ACE));
+    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.CLUBS, ICard.TEN));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Royal Flush"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.TEN);
+    assertTrue(low.get(1).getRank() == ICard.TEN);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.ACE);
+    assertTrue(high.get(1).getRank() == ICard.JOKER);
+    assertTrue(high.get(2).getRank() == ICard.KING);
+    assertTrue(high.get(3).getRank() == ICard.QUEEN);
+    assertTrue(high.get(4).getRank() == ICard.JACK);
+
+    // Both pairs tens or higher.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.SPADES, ICard.QUEEN));
+    cards.add(new Card(ICard.DIAMONDS, ICard.QUEEN));
+    cards.add(new Card(ICard.SPADES, ICard.KING));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.SPADES, ICard.ACE));
+    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.CLUBS, ICard.TEN));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Royal Flush"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue(low.get(0).getRank() == ICard.TEN);
+    assertTrue(low.get(1).getRank() == ICard.TEN);
+    high = hand.getHighHand();
+    assertTrue(high.size() == 5);
+    assertTrue(high.get(0).getRank() == ICard.QUEEN);
+    assertTrue(high.get(1).getRank() == ICard.QUEEN);
+    assertTrue(high.get(2).getRank() == ICard.ACE);
+    assertTrue(high.get(3).getRank() == ICard.KING);
+    assertTrue(high.get(4).getRank() == ICard.JACK);
+
+  }
+  
+  
+  @Test
+  public void testProblemHands() {
+
+  }
 }

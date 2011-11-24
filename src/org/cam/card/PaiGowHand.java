@@ -20,7 +20,7 @@ public final class PaiGowHand extends Hand {
   private List<ICard> highHand;
 
   private Hand rawCards;
-  
+
   /**
    * Constructs a PaiGaoHand instance.
    * 
@@ -435,16 +435,16 @@ public final class PaiGowHand extends Hand {
 
   public boolean has7CardStraightFlush() {
     return rawCards.isStraightFlush();
-//    boolean ret = false;
-//    Collections.sort(cards);
-//    ArrayList<ICard> temp = new ArrayList<ICard>();
-//    for (int j = 0; j < 7; j++) {
-//      temp.add(cards.get(j));
-//    }
-//    if (Card.isStraight(temp) && Card.isFlush(temp)) {
-//      ret = true;
-//    }
-//    return ret;
+    // boolean ret = false;
+    // Collections.sort(cards);
+    // ArrayList<ICard> temp = new ArrayList<ICard>();
+    // for (int j = 0; j < 7; j++) {
+    // temp.add(cards.get(j));
+    // }
+    // if (Card.isStraight(temp) && Card.isFlush(temp)) {
+    // ret = true;
+    // }
+    // return ret;
   }
 
   /**
@@ -995,20 +995,20 @@ public final class PaiGowHand extends Hand {
     return sb.toString();
   }
 
-  public void setHighHand(List <ICard> high) {
-    assert(high.size() == 5);
-    assert(cards.containsAll(high));
+  public void setHighHand(List<ICard> high) {
+    assert (high.size() == 5);
+    assert (cards.containsAll(high));
     highHand.clear();
     highHand.addAll(high);
   }
-  
-  public void setLowHand(List <ICard> low) {
-    assert(low.size() == 2);
-    assert(cards.containsAll(low));
+
+  public void setLowHand(List<ICard> low) {
+    assert (low.size() == 2);
+    assert (cards.containsAll(low));
     lowHand.clear();
     lowHand.addAll(low);
   }
-  
+
   /**
    * 
    * @return The String representation of the hand.
@@ -2081,23 +2081,41 @@ public final class PaiGowHand extends Hand {
         break;
       }
     }
-    for (int i = 0; i < firstPairStart; i++) {
-      highHand.add(cards.get(i));
-    }
-    highHand.add(cards.get(firstPairStart));
-    highHand.add(cards.get(firstPairStart + 1));
-    for (int i = firstPairStart + 2; i < secondPairStart; i++) {
-      highHand.add(cards.get(i));
-    }
-    highHand.add(cards.get(secondPairStart));
-    highHand.add(cards.get(secondPairStart + 1));
-    for (int i = secondPairStart + 2; i < thirdPairStart; i++) {
-      highHand.add(cards.get(i));
-    }
-    lowHand.add(cards.get(thirdPairStart));
-    lowHand.add(cards.get(thirdPairStart + 1));
-    for (int i = thirdPairStart + 2; i < cards.size(); i++) {
-      highHand.add(cards.get(i));
+    if (thirdPairStart == -1 && firstPairStart > 0 && cards.get(0).getRank() == ICard.ACE
+        && cards.get(6).getRank() == ICard.JOKER) {
+      // third pair is aces w/ joker
+      lowHand.add(cards.get(0));
+      lowHand.add(cards.get(6));
+      highHand.add(cards.get(firstPairStart));
+      highHand.add(cards.get(firstPairStart + 1));
+      highHand.add(cards.get(secondPairStart));
+      highHand.add(cards.get(secondPairStart + 1));
+      if (firstPairStart > 1) {
+        highHand.add(cards.get(1));
+      }
+      else if (secondPairStart > firstPairStart + 2) {
+        highHand.add(cards.get(firstPairStart + 3));
+      }
+      else {
+        for (int i = 0; i < firstPairStart; i++) {
+          highHand.add(cards.get(i));
+        }
+        highHand.add(cards.get(firstPairStart));
+        highHand.add(cards.get(firstPairStart + 1));
+        for (int i = firstPairStart + 2; i < secondPairStart; i++) {
+          highHand.add(cards.get(i));
+        }
+        highHand.add(cards.get(secondPairStart));
+        highHand.add(cards.get(secondPairStart + 1));
+        for (int i = secondPairStart + 2; i < thirdPairStart; i++) {
+          highHand.add(cards.get(i));
+        }
+        lowHand.add(cards.get(thirdPairStart));
+        lowHand.add(cards.get(thirdPairStart + 1));
+        for (int i = thirdPairStart + 2; i < cards.size(); i++) {
+          highHand.add(cards.get(i));
+        }
+      }
     }
   }
 

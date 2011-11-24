@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.cam.card.Card;
-import org.cam.card.Hand;
 import org.cam.card.ICard;
 import org.cam.card.IHouseWay;
 import org.cam.card.PaiGowHand;
@@ -93,16 +92,16 @@ public class FlamingoHouseWay implements IHouseWay {
   @Override
   public void playFlushOrStraight(PaiGowHand hand) {
     System.err.println("playFlushOrStraight");
-//    cards.clear();
-//    for (ICard c : hand.getCards()) {
-//      cards.add(c);
-//    }
-//    Collections.reverse(cards);
-//    lowHand.clear();
-//    highHand.clear();
-//
-//    hand.setLowHand(lowHand);
-//    hand.setHighHand(highHand);
+    // cards.clear();
+    // for (ICard c : hand.getCards()) {
+    // cards.add(c);
+    // }
+    // Collections.reverse(cards);
+    // lowHand.clear();
+    // highHand.clear();
+    //
+    // hand.setLowHand(lowHand);
+    // hand.setHighHand(highHand);
   }
 
   /**
@@ -520,7 +519,6 @@ public class FlamingoHouseWay implements IHouseWay {
     int tripIndex = -1;
     int tripRank = -1;
     int tripIndex2 = -1;
-    int tripRank2 = -1;
     int pairIndex = -1;
     int pairRank = -1;
     for (int i = 0; i < cards.size() - 2; i++) {
@@ -532,7 +530,6 @@ public class FlamingoHouseWay implements IHouseWay {
         }
         else {
           tripIndex2 = i;
-          tripRank2 = cards.get(i).getRank();
         }
       }
     }
@@ -554,14 +551,16 @@ public class FlamingoHouseWay implements IHouseWay {
       if (tripIndex > 0) {
         highHand.add(cards.get(0));
         highHand.add(cards.get(tripIndex + 2));
-      } else if (tripIndex2 > tripIndex + 3) {
+      }
+      else if (tripIndex2 > tripIndex + 3) {
         highHand.add(cards.get(tripIndex + 2));
         highHand.add(cards.get(3));
-      } else {
-        highHand.add(cards.get(tripIndex + 2));
-        highHand.add(cards.get(6));        
       }
-    } 
+      else {
+        highHand.add(cards.get(tripIndex + 2));
+        highHand.add(cards.get(6));
+      }
+    }
     else {
       if (pairRank == ICard.TWO && tripRank != ICard.KING && tripRank != ICard.ACE) {
         // check to see if we have ACE and KING
@@ -646,7 +645,7 @@ public class FlamingoHouseWay implements IHouseWay {
         }
       }
     }
-      
+
     hand.setLowHand(lowHand);
     hand.setHighHand(highHand);
   }
@@ -679,43 +678,137 @@ public class FlamingoHouseWay implements IHouseWay {
   }
 
   /**
+   * One pair: Place the pair in back and the two highest singletons in the
+   * front.
    * 
-   * @param hand
+   * @param hand the PaiGowHand to set.
    * @see org.cam.card.IHouseWay#playPair(org.cam.card.PaiGowHand)
    */
   @Override
   public void playPair(PaiGowHand hand) {
     System.err.println("playPair");
-//    cards.clear();
-//    for (ICard c : hand.getCards()) {
-//      cards.add(c);
-//    }
-//    Collections.reverse(cards);
-//    lowHand.clear();
-//    highHand.clear();
-//
-//    hand.setLowHand(lowHand);
-//    hand.setHighHand(highHand);
+    cards.clear();
+    for (ICard c : hand.getCards()) {
+      cards.add(c);
+    }
+    Collections.reverse(cards);
+    lowHand.clear();
+    highHand.clear();
+    // One pair: Place the pair in back and the two highest singletons in the
+    // front.
+    int index = -1;
+    for (int i = 0; i < cards.size() - 1; i++) {
+      if (cards.get(i).getRank() == cards.get(i + 1).getRank()) {
+        index = i;
+      }
+    }
+    if (index > -1) {
+      // add pair to high hand
+      highHand.add(cards.get(index));
+      highHand.add(cards.get(index + 1));
+      if (index > 1) {
+        lowHand.add(cards.get(0));
+        lowHand.add(cards.get(1));
+        for (int i = 2; i < index; i++) {
+          highHand.add(cards.get(i));
+        }
+        for (int i = index + 2; i < cards.size(); i++) {
+          highHand.add(cards.get(i));
+        }
+      }
+      else if (index == 1) {
+        lowHand.add(cards.get(0));
+        lowHand.add(cards.get(index + 2));
+        for (int i = index + 3; i < cards.size(); i++) {
+          highHand.add(cards.get(i));
+        }
+      }
+      else if (index == 0) {
+        lowHand.add(cards.get(index + 2));
+        lowHand.add(cards.get(index + 3));
+        for (int i = index + 4; i < cards.size(); i++) {
+          highHand.add(cards.get(i));
+        }
+      }
+    }
+    else {
+      // had pair of aces made w/ joker and one ace
+      lowHand.add(cards.get(1));
+      lowHand.add(cards.get(2));
+      highHand.add(cards.get(0)); // the ace
+      highHand.add(cards.get(6)); // the joker
+      highHand.add(cards.get(3));
+      highHand.add(cards.get(4));
+      highHand.add(cards.get(5));
+    }
+    hand.setLowHand(lowHand);
+    hand.setHighHand(highHand);
   }
 
   /**
-   * 
+   * Royal Flush:
+   *
+   * Play the royal flush in back except play as a two pair with:
+   * Aces and any other pair.
+   * Both pairs tens or higher.
+   *
+   * Break up royal flush if a straight or flush can be played in back and a
+   * king or better in front.
+ 
    * @param hand
    * @see org.cam.card.IHouseWay#playRoyalFlush(org.cam.card.PaiGowHand)
    */
   @Override
   public void playRoyalFlush(PaiGowHand hand) {
     System.err.println("playRoyalFlush");
-//    cards.clear();
-//    for (ICard c : hand.getCards()) {
-//      cards.add(c);
-//    }
-//    Collections.reverse(cards);
-//    lowHand.clear();
-//    highHand.clear();
-//
-//    hand.setLowHand(lowHand);
-//    hand.setHighHand(highHand);
+    cards.clear();
+    for (ICard c : hand.getCards()) {
+      cards.add(c);
+    }
+    Collections.reverse(cards);
+    lowHand.clear();
+    highHand.clear();
+    
+    // Royal Flush:
+    //
+    // Play the royal flush in back except play as a two pair with:
+    // Aces and any other pair.
+    // Both pairs tens or higher.
+    //
+    int firstPairStart = -1;
+    int firstRank = -1;
+    int secondPairStart = -1;
+    int secondRank = -1;
+    for (int i = 0; i < cards.size() - 1; i++) {
+      if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart == -1) {
+        firstPairStart = i;
+        firstRank = cards.get(i).getRank();
+      }
+      else if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart != -1
+          && secondPairStart == -1) {
+        secondPairStart = i;
+        secondRank = cards.get(i).getRank();
+      }
+    }
+    if (firstPairStart != -1 &&
+        cards.get(0).getRank() == ICard.ACE &&
+        cards.get(6).getRank() == ICard.JOKER) { // pair of aces and other
+      playTwoPair(hand);
+      return;
+    } else if (firstPairStart != -1 &&
+        secondPairStart != -1 &&
+        firstRank >= ICard.TEN &&
+        secondRank >= ICard.TEN) {
+      playTwoPair(hand);
+      return;
+    }
+
+    
+    // Break up royal flush if a straight or flush can be played in back and a
+    // king or better in front.
+
+     hand.setLowHand(lowHand);
+     hand.setHighHand(highHand);
   }
 
   /**
@@ -726,16 +819,16 @@ public class FlamingoHouseWay implements IHouseWay {
   @Override
   public void playStraightFlush(PaiGowHand hand) {
     System.err.println("playStraightFlush");
-//    cards.clear();
-//    for (ICard c : hand.getCards()) {
-//      cards.add(c);
-//    }
-//    Collections.reverse(cards);
-//    lowHand.clear();
-//    highHand.clear();
-//
-//    hand.setLowHand(lowHand);
-//    hand.setHighHand(highHand);
+    // cards.clear();
+    // for (ICard c : hand.getCards()) {
+    // cards.add(c);
+    // }
+    // Collections.reverse(cards);
+    // lowHand.clear();
+    // highHand.clear();
+    //
+    // hand.setLowHand(lowHand);
+    // hand.setHighHand(highHand);
   }
 
   /**
@@ -764,7 +857,6 @@ public class FlamingoHouseWay implements IHouseWay {
     int tripIndex1 = -1;
     int tripIndex2 = -1;
     int tripRank1 = -1;
-    int tripRank2 = -1;
     for (int i = 0; i < cards.size() - 2; i++) {
       if (cards.get(i).getRank() == cards.get(i + 1).getRank()
           && cards.get(i + 1).getRank() == cards.get(i + 2).getRank()) {
@@ -774,7 +866,6 @@ public class FlamingoHouseWay implements IHouseWay {
         }
         else {
           tripIndex2 = i;
-          tripRank2 = cards.get(i).getRank();
         }
       }
     }
@@ -872,7 +963,7 @@ public class FlamingoHouseWay implements IHouseWay {
 
   /**
    * Three pair: Play highest pair in front.
-   *
+   * 
    * @param hand The PaiGowHand to set.
    * @see org.cam.card.IHouseWay#playThreePair(org.cam.card.PaiGowHand)
    */
@@ -880,24 +971,78 @@ public class FlamingoHouseWay implements IHouseWay {
   public void playThreePair(PaiGowHand hand) {
     System.err.println("playThreePair");
     // Three pair: Play highest pair in front.
-//    cards.clear();
-//    for (ICard c : hand.getCards()) {
-//      cards.add(c);
-//    }
-//    Collections.reverse(cards);
-//    lowHand.clear();
-//    highHand.clear();
-//
-//    hand.setLowHand(lowHand);
-//    hand.setHighHand(highHand);
+    cards.clear();
+    for (ICard c : hand.getCards()) {
+      cards.add(c);
+    }
+    Collections.reverse(cards);
+    lowHand.clear();
+    highHand.clear();
+
+    int firstPairStart = -1;
+    int secondPairStart = -1;
+    int thirdPairStart = -1;
+    for (int i = 0; i < cards.size() - 1; i++) {
+      if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart == -1) {
+        firstPairStart = i;
+      }
+      else if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart != -1
+          && secondPairStart == -1) {
+        secondPairStart = i;
+      }
+      else if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart != -1
+          && secondPairStart != -1 && thirdPairStart == -1) {
+        thirdPairStart = i;
+      }
+    }
+    if (thirdPairStart == -1 && firstPairStart > 0 && cards.get(0).getRank() == ICard.ACE
+        && cards.get(6).getRank() == ICard.JOKER) {
+      // third pair is aces w/ joker
+      lowHand.add(cards.get(0));
+      lowHand.add(cards.get(6));
+      highHand.add(cards.get(firstPairStart));
+      highHand.add(cards.get(firstPairStart + 1));
+      highHand.add(cards.get(secondPairStart));
+      highHand.add(cards.get(secondPairStart + 1));
+      if (firstPairStart > 1) {
+        highHand.add(cards.get(1));
+      }
+      else if (secondPairStart > firstPairStart + 2) {
+        highHand.add(cards.get(firstPairStart + 3));
+      }
+      else {
+        highHand.add(cards.get(5));
+      }
+    }
+    else {
+      lowHand.add(cards.get(firstPairStart));
+      lowHand.add(cards.get(firstPairStart + 1));
+      highHand.add(cards.get(secondPairStart));
+      highHand.add(cards.get(secondPairStart + 1));
+      highHand.add(cards.get(thirdPairStart));
+      highHand.add(cards.get(thirdPairStart + 1));
+      if (firstPairStart > 0) {
+        highHand.add(cards.get(0));
+      }
+      else if (secondPairStart > firstPairStart + 2) {
+        highHand.add(cards.get(firstPairStart + 3));
+      }
+      else if (thirdPairStart > secondPairStart + 2) {
+        highHand.add(cards.get(secondPairStart + 3));
+      }
+      else {
+        highHand.add(cards.get(6));
+      }
+    }
+    hand.setLowHand(lowHand);
+    hand.setHighHand(highHand);
   }
 
   /**
-   * Two pair: Split the two pair except for the following three situations
-   * Both pairs are 6's or less.
-   * Both pairs are 10's or less plus ace singleton.
-   * One pair of face cards, one pair of 5's or less, and an ace singleton.
-   *
+   * Two pair: Split the two pair except for the following three situations Both
+   * pairs are 6's or less. Both pairs are 10's or less plus ace singleton. One
+   * pair of face cards, one pair of 5's or less, and an ace singleton.
+   * 
    * @param hand The PaiGowHand to set.
    * @see org.cam.card.IHouseWay#playTwoPair(org.cam.card.PaiGowHand)
    */
@@ -920,12 +1065,13 @@ public class FlamingoHouseWay implements IHouseWay {
     ICard p21 = null;
     ICard p22 = null;
     ICard ace = null;
-    
-    if (cards.get(0).getRank() == Card.ACE) {
-      ace = cards.get(0);
-    }
+
     boolean haveFirst = false;
     // System.out.println("cards " + cards);
+    if (cards.get(0).getRank() == ICard.ACE) {
+      ace = cards.get(0);
+    }
+    
     for (int i = 0; i < cards.size() - 1; i++) {
       if (cards.get(i).getRank() == cards.get(i + 1).getRank() && !haveFirst) {
         p11 = cards.get(i);
@@ -942,9 +1088,18 @@ public class FlamingoHouseWay implements IHouseWay {
         p22 = cards.get(i + 1);
       }
     }
-    // System.out.println("two pair " + p11 + "," + p12 + " " + p21 + "," +
-    // p22);
-    if (p11.getRank() <= ICard.SIX && p21.getRank() <= ICard.SIX) { 
+    if (cards.get(0).getRank() == ICard.ACE &&
+        p21 == null &&
+        cards.get(6).getRank() == ICard.JOKER) {
+        p21 = p11;
+        p22 = p12;
+        p11 = cards.get(0);
+        p12 = cards.get(6);
+    }
+
+//     System.out.println("two pair " + p11 + "," + p12 + " " + p21 + "," +
+//     p22);
+    if (p11.getRank() <= ICard.SIX && p21.getRank() <= ICard.SIX) {
       // Both pairs are 6's or less keep together
       highHand.add(p11);
       cards.remove(p11);
@@ -958,9 +1113,7 @@ public class FlamingoHouseWay implements IHouseWay {
       lowHand.add(cards.get(1));
       highHand.add(cards.get(2));
     }
-    else if (p11.getRank() <= ICard.TEN &&
-        p21.getRank() <= ICard.TEN &&
-        ace != null) {
+    else if (p11.getRank() <= ICard.TEN && p21.getRank() <= ICard.TEN && ace != null) {
       // Both pairs are 10's or less plus ace singleton.
       lowHand.add(ace);
       cards.remove(ace);
@@ -975,9 +1128,7 @@ public class FlamingoHouseWay implements IHouseWay {
       lowHand.add(cards.get(0));
       highHand.add(cards.get(1));
     }
-    else if (p11.getRank() > ICard.TEN &&
-        p21.getRank() <= ICard.FIVE &&
-        ace != null) {
+    else if (p11.getRank() > ICard.TEN && p21.getRank() <= ICard.FIVE && ace != null) {
       // One pair of face cards, one pair of 5's or less, and an ace singleton.
       lowHand.add(ace);
       cards.remove(ace);
@@ -1006,7 +1157,7 @@ public class FlamingoHouseWay implements IHouseWay {
       highHand.add(cards.get(1));
       highHand.add(cards.get(2));
     }
-    
+
     hand.setLowHand(lowHand);
     hand.setHighHand(highHand);
   }
