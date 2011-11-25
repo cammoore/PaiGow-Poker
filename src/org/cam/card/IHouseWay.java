@@ -24,11 +24,22 @@ package org.cam.card;
 public interface IHouseWay {
 
 	/**
-	 * Sets the PaiGowHand from the next seven cards from the PaiGowDeck.
+	 * Sets the PaiGowHand from the raw seven cards in the PaiGowHand.
 	 * 
-	 * @param d
-	 *          a PaiGowDeck.
-	 * @return The set PaiGowHand.
+	 * @param hand
+	 *          a PaiGowHand.
 	 */
-	public PaiGowHand setHand(PaiGowDeck d);
+	public void setHand(PaiGowHand hand);
+	
+	public void playFiveAces(PaiGowHand hand);
+	public void playRoyalFlush(PaiGowHand hand);
+	public void playStraightFlush(PaiGowHand hand);
+	public void playFourOfAKind(PaiGowHand hand);
+	public void playFullHouse(PaiGowHand hand);
+	public void playFlushOrStraight(PaiGowHand hand);
+	public void playThreeOfAKind(PaiGowHand hand);
+	public void playThreePair(PaiGowHand hand);
+	public void playTwoPair(PaiGowHand hand);
+	public void playPair(PaiGowHand hand);
+	public void playPaiGow(PaiGowHand hand);
 }

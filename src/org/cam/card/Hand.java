@@ -16,13 +16,7 @@ public class Hand {
 
   /**
    * Constructs a Hand instance.
-   */
-  protected Hand() {
-    this.cards = new ArrayList<ICard>();
-  }
-  
-  /**
-   * Constructs a Hand instance.
+   * 
    * @param d The Deck to use.
    * @param numCards the number of cards in the hand.
    */
@@ -35,7 +29,25 @@ public class Hand {
     }
   }
 
-  
+  /**
+   * Constructs a Hand instance from the list of cards.
+   * 
+   * @param cards a List of cards.
+   */
+  public Hand(List<ICard> cards) {
+    this.cards = new ArrayList<ICard>();
+    for (ICard c : cards) {
+      this.cards.add(c);
+    }
+  }
+
+  /**
+   * Constructs a Hand instance.
+   */
+  protected Hand() {
+    this.cards = new ArrayList<ICard>();
+  }
+
   /**
    * @return The cards value a List<ICard>.
    */
@@ -48,31 +60,10 @@ public class Hand {
   }
 
   /**
-   * @return true if the hand has a pair.
+   * @return true if the hand has a four of a kind.
    */
-  public boolean hasPair() {
-    return Card.hasPair(cards);
-  }
-
-  /**
-   * @return true if the hand has two pair.
-   */
-  public boolean hasTwoPair() {
-    return Card.hasTwoPair(cards);
-  }
-  
-  /**
-   * @return true if the hand has three pair.
-   */
-  public boolean hasThreePair() {
-    return Card.hasThreePair(cards);
-  }
-  
-  /**
-   * @return true if the hand has a three of a kind.
-   */
-  public boolean hasThreeOfAKind() {
-    return Card.hasThreeOfAKind(cards);
+  public boolean hasFourOfAKind() {
+    return Card.hasFourOfAKind(cards);
   }
 
   /**
@@ -83,10 +74,45 @@ public class Hand {
   }
 
   /**
+   * @return true if the hand has a pair.
+   */
+  public boolean hasPair() {
+    return Card.hasPair(cards);
+  }
+
+  /**
+   * @return true if the hand has a three of a kind.
+   */
+  public boolean hasThreeOfAKind() {
+    return Card.hasThreeOfAKind(cards);
+  }
+
+  /**
+   * @return true if the hand has three pair.
+   */
+  public boolean hasThreePair() {
+    return Card.hasThreePair(cards);
+  }
+
+  /**
+   * @return true if the hand has two pair.
+   */
+  public boolean hasTwoPair() {
+    return Card.hasTwoPair(cards);
+  }
+
+  /**
    * @return true if the hand is a flush.
    */
   public boolean isFlush() {
     return Card.isFlush(cards);
+  }
+
+  /**
+   * @return true if the hand is a royal flush.
+   */
+  public boolean isRoyalFlush() {
+    return Card.isRoyalFlush(cards);
   }
 
   /**
@@ -101,20 +127,6 @@ public class Hand {
    */
   public boolean isStraightFlush() {
     return Card.isStraightFlush(cards);
-  }
-
-  /**
-   * @return true if the hand is a royal flush.
-   */
-  public boolean isRoyalFlush() {
-    return Card.isRoyalFlush(cards);
-  }
-
-  /**
-   * @return true if the hand has a four of a kind.
-   */
-  public boolean hasFourOfAKind() {
-    return Card.hasFourOfAKind(cards);
   }
 
   /**

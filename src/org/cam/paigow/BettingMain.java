@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import org.cam.utilities.statistics.Binner;
 import org.cam.utilities.statistics.DataSequence;
 
+
 /**
  * @author Cam Moore
  * 

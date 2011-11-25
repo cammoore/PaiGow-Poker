@@ -33,7 +33,7 @@ public class PaiGowGame {
     PaiGowHand playerHand;
     for (int i = 1; i < 7; i++) {
       playerHand = hands[i];
-      HandResult winHand = playerHand.beats(dealerHand);
+      HandResult winHand = playerHand.compareToBanker(dealerHand);
       switch (winHand) {
       case LOSE:
         gameRes.setLoss(i-1);
