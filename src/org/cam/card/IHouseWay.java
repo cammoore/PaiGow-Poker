@@ -1,5 +1,5 @@
 /**
- * HouseWay.java
+ * IHouseWay.java
  * Copyright (C) 2011  Cam Moore
  *
  * This program is free software: you can redistribute it and/or modify
