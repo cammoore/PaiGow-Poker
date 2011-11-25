@@ -600,8 +600,8 @@ public final class PaiGowHand extends Hand {
   public boolean hasRoyalFlush() {
     boolean straightp = false;
     List<ICard> straightFlush = getStraightFlush();
-    // System.out.println("Straight Flush cards " + straightFlush);
     Collections.sort(straightFlush);
+     System.out.println("Straight Flush cards " + straightFlush);
     if (straightFlush.size() >= 5) {
       ICard topCard = straightFlush.get(straightFlush.size() - 1);
       if (topCard.getRank() == Card.ACE) {
@@ -786,11 +786,11 @@ public final class PaiGowHand extends Hand {
    * @return true if the hand has a straight.
    */
   public boolean hasStraight() {
-    List<ICard> straight = getStraight();
+//    List<ICard> straight = getStraight();
     // System.out.println("hasStright " + straight);
-    if (straight.size() >= 5) {
-      return true;
-    }
+//    if (straight.size() >= 5) {
+//      return true;
+//    }
     return false;
   }
 
@@ -1021,7 +1021,7 @@ public final class PaiGowHand extends Hand {
     return sb.toString();
   }
 
-  private List<ICard> getFlush() {
+  private Map<Integer, List<ICard>> getFlush() {
     List<ICard> ret = new ArrayList<ICard>();
     ICard joker = null;
 
@@ -1040,126 +1040,121 @@ public final class PaiGowHand extends Hand {
         flushes.put(firstCard.getSuit(), flush);
       }
       flush.add(firstCard);
-      flushes.put(firstCard.getSuit(), flush);
-      // check to see if we can continue a run
-    }
-    int max = 0;
-    for (Integer key : flushes.keySet()) {
-      List<ICard> list = flushes.get(key);
-      if (list.size() > max) {
-        ret = list;
-        max = list.size();
+      if (joker != null &&
+          !flush.contains(joker)) {
+        flush.add(joker);
       }
+      flushes.put(firstCard.getSuit(), flush);
     }
-    if (joker != null && !ret.contains(joker)) {
-      ret.add(joker);
-    }
-    return ret;
+    return flushes;
   }
 
-  private List<ICard> getStraight() {
-    List<ICard> ret = new ArrayList<ICard>();
+  private Map<ICard, StraightTree> getStraight() {
+    Map<ICard, StraightTree> runTree = new HashMap<ICard, StraightTree>();
     Collections.sort(cards);
     ICard joker = null;
     ICard p1 = null;
-    // System.out.println(cards);
-    Map<ICard, List<ICard>> runs = new HashMap<ICard, List<ICard>>();
+     System.out.println(cards);
     for (int i = 0; i < cards.size() - 1; i++) {
       ICard firstCard = cards.get(i);
+      if (runTree.get(firstCard) == null) {
+        runTree.put(firstCard, new StraightTree(firstCard));
+      }
       if (firstCard.getRank() == Card.JOKER) {
         joker = firstCard;
       }
       ICard secondCard = cards.get(i + 1);
-      if (runs.get(firstCard) == null) {
-        runs.put(firstCard, new ArrayList<ICard>());
+      // move past pairs
+      int count = 2;
+      while (secondCard.getRank() == firstCard.getRank() &&
+          i + count < cards.size()) {
+        secondCard = cards.get(count++);
       }
       // start a new run
-      List<ICard> run = runs.get(firstCard);
-      run.add(firstCard);
-      // if (firstCard.getRank() == secondCard.getRank()) {
-      // p1 = firstCard;
-      // } else
+      StraightTree tree = runTree.get(firstCard);
       if (firstCard.getRank() + 1 == secondCard.getRank()) {
-        run.add(secondCard);
+        tree.getRootElement().addChild(new CardNode(secondCard));
         // check to see if we can continue a run
-        for (ICard key : runs.keySet()) {
-          List<ICard> list = runs.get(key);
-          if (list.size() > 1 && list.contains(firstCard) && !list.contains(secondCard)) {
-            list.add(secondCard);
-            runs.put(key, list);
-          }
-          else if (p1 != null && list.size() > 1 && list.contains(p1) && !list.contains(secondCard)) {
-            list.add(secondCard);
-            runs.put(key, list);
-          }
-        }
-        p1 = null;
+//        for (ICard key : runMap.keySet()) {
+//          List<ICard> list = runMap.get(key);
+//          if (list.size() > 1 && list.contains(firstCard) && !list.contains(secondCard)) {
+//            list.add(secondCard);
+//            runMap.put(key, list);
+//          }
+//          else if (p1 != null && list.size() > 1 && list.contains(p1) && !list.contains(secondCard)) {
+//            list.add(secondCard);
+//            runMap.put(key, list);
+//          }
+//        }
+//        p1 = null;
       }
       else if (firstCard.getRank() + 2 == secondCard.getRank() && joker != null) {
-        run.add(joker);
-        run.add(secondCard);
+//        tree.add(joker);
+//        tree.add(secondCard);
         // check to see if we can continue a run
-        for (ICard key : runs.keySet()) {
-          List<ICard> list = runs.get(key);
-          if (list.size() > 1 && list.contains(firstCard) && !list.contains(secondCard)) {
-            list.add(joker);
-            list.add(secondCard);
-            runs.put(key, list);
-          }
-          else if (p1 != null && list.size() > 1 && list.contains(p1) && !list.contains(secondCard)) {
-            list.add(secondCard);
-            runs.put(key, list);
-          }
-        }
-        p1 = null;
+//        for (ICard key : runMap.keySet()) {
+//          List<ICard> list = runMap.get(key);
+//          if (list.size() > 1 && list.contains(firstCard) && !list.contains(secondCard)) {
+//            list.add(joker);
+//            list.add(secondCard);
+//            runMap.put(key, list);
+//          }
+////          else if (p1 != null && list.size() > 1 && list.contains(p1) && !list.contains(secondCard)) {
+////            list.add(secondCard);
+////            runMap.put(key, list);
+////          }
+//        }
+//        p1 = null;
       }
       if (secondCard.getRank() == Card.ACE) {
-        for (ICard key : runs.keySet()) {
-          if (key.getRank() == Card.TWO) {
-            List<ICard> list = runs.get(key);
-            Collections.sort(list);
-            if (list.get(list.size() - 1).getRank() != Card.ACE) { // don't add
-                                                                   // another
-                                                                   // ace
-              list.add(0, secondCard);
-            }
-            runs.put(key, list);
-          }
-        }
+//        for (ICard key : runMap.keySet()) {
+//          if (key.getRank() == Card.TWO) {
+//            List<ICard> list = runMap.get(key);
+//            Collections.sort(list);
+//            if (list.get(list.size() - 1).getRank() != Card.ACE) { // don't add
+//                                                                   // another
+//                                                                   // ace
+//              list.add(0, secondCard);
+//            }
+//            runMap.put(key, list);
+//          }
+//        }
       }
-      runs.put(firstCard, run);
+//      runMap.put(firstCard, tree);
     }
+//    System.out.println(runMap);
     int max = 0;
-    for (ICard key : runs.keySet()) {
-      List<ICard> list = runs.get(key);
-      // System.out.println("stright runs " + list);
-      if (list.size() > max) {
-        ret = list;
-        max = list.size();
-      }
-    }
-    if (joker != null && !ret.contains(joker)) {
-      ret.add(joker);
-    }
-    return ret;
+//    for (ICard key : runMap.keySet()) {
+//      List<ICard> list = runMap.get(key);
+//       System.out.println("stright runs " + list);
+//      if (list.size() > max) {
+//        ret = list;
+//        max = list.size();
+//      }
+//    }
+//    if (joker != null && !ret.contains(joker)) {
+//      ret.add(joker);
+//    }
+//    return ret;
+    return null;
   }
 
   private List<ICard> getStraightFlush() {
-    List<ICard> straightCards = getStraight();
-    List<ICard> flushCards = getFlush();
+//    List<ICard> straightCards = getStraight();
+    Map<Integer, List<ICard>> flushCards = getFlush();
     // System.out.println("Straight Cards " + straightCards);
     // System.out.println("Flush Cards " + flushCards);
     List<ICard> both = new ArrayList<ICard>();
-    for (ICard card : straightCards) {
-      if (flushCards.contains(card) && !both.contains(card)) {
-        both.add(card);
-      }
-    }
-    for (ICard card : flushCards) {
-      if (straightCards.contains(card) && !both.contains(card)) {
-        both.add(card);
-      }
-    }
+//    for (ICard card : straightCards) {
+//      if (flushCards.contains(card) && !both.contains(card)) {
+//        both.add(card);
+//      }
+//    }
+//    for (ICard card : flushCards) {
+//      if (straightCards.contains(card) && !both.contains(card)) {
+//        both.add(card);
+//      }
+//    }
     Collections.sort(both);
     return both;
   }
@@ -1880,8 +1875,8 @@ public final class PaiGowHand extends Hand {
    */
   private void playStraight() {
     Collections.sort(cards);
-    List<ICard> straight = getStraight();
-    Collections.reverse(straight);
+//    List<ICard> straight = getStraight();
+//    Collections.reverse(straight);
     if (hasThreePair()) {
       playThreePair();
     }
@@ -1933,11 +1928,11 @@ public final class PaiGowHand extends Hand {
     for (ICard card : cards) {
       temp.add(card);
     }
-    Collections.sort(straight);
+//    Collections.sort(straight);
     for (int i = 0; i < 5; i++) {
-      ICard c = straight.get(i);
-      highHand.add(c);
-      temp.remove(c);
+//      ICard c = straight.get(i);
+//      highHand.add(c);
+//      temp.remove(c);
     }
     lowHand.add(temp.get(0));
     lowHand.add(temp.get(1));
