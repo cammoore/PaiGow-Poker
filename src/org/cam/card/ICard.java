@@ -9,13 +9,13 @@ package org.cam.card;
  */
 public interface ICard extends Comparable<ICard> {
   /** SPADES a int. */
-  public static final int SPADES = 0;
+  public static final int SPADES = 3;
   /** HEARTS a int. */
-  public static final int HEARTS = 1;
+  public static final int HEARTS = 2;
   /** DIAMONDS a int. */
-  public static final int DIAMONDS = 2;
+  public static final int DIAMONDS = 1;
   /** CLUBS a int. */
-  public static final int CLUBS = 3;
+  public static final int CLUBS = 0;
   /** PAI_GAO_JOKER a int. */
   public static final int PAI_GAO_JOKER = 4;
   
