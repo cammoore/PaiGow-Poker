@@ -1073,7 +1073,7 @@ public final class PaiGowHand extends Hand {
       // start a new run
       StraightTree tree = runTree.get(firstCard);
       if (firstCard.getRank() + 1 == secondCard.getRank()) {
-        tree.getRootElement().addChild(new CardNode(secondCard));
+        tree.addCard(secondCard);
         // check to see if we can continue a run
 //        for (ICard key : runMap.keySet()) {
 //          List<ICard> list = runMap.get(key);
