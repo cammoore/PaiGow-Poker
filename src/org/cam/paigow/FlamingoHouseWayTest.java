@@ -248,9 +248,9 @@ public class FlamingoHouseWayTest {
     low = hand.getLowHand();
     assertTrue(low.size() == 2);
     assertTrue(low.get(0).getRank() == ICard.JACK);
-    assertTrue(low.get(0).getSuit() == ICard.DIAMONDS);
+    assertTrue(low.get(0).getSuit() == ICard.HEARTS);
     assertTrue(low.get(1).getRank() == ICard.JACK);
-    assertTrue(low.get(1).getSuit() == ICard.HEARTS);
+    assertTrue(low.get(1).getSuit() == ICard.DIAMONDS);
     high = hand.getHighHand();
     assertTrue(high.size() == 5);
     assertTrue(high.get(0).getRank() == ICard.QUEEN);
@@ -389,7 +389,7 @@ public class FlamingoHouseWayTest {
     cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
     cards.add(new Card(ICard.SPADES, ICard.THREE));
     cards.add(new Card(ICard.HEARTS, ICard.FOUR));
-    cards.add(new Card(ICard.HEARTS, ICard.FIVE));
+    cards.add(new Card(ICard.HEARTS, ICard.SEVEN));
     cards.add(new Card(ICard.CLUBS, ICard.TWO));
     hand = new PaiGowHand(cards);
     house.setHand(hand);
@@ -397,8 +397,8 @@ public class FlamingoHouseWayTest {
     assertTrue(hand.description().equals("Three of a Kind"));
     low = hand.getLowHand();
     assertTrue(low.size() == 2);
-    assertTrue(low.get(0).getRank() == ICard.SIX);
-    assertTrue(low.get(1).getRank() == ICard.FIVE);
+    assertTrue(low.get(0).getRank() == ICard.SEVEN);
+    assertTrue(low.get(1).getRank() == ICard.SIX);
     high = hand.getHighHand();
     assertTrue(high.size() == 5);
     assertTrue(high.get(0).getRank() == ICard.THREE);
