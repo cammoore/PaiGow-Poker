@@ -562,10 +562,12 @@ public final class PaiGowHand extends Hand {
 		boolean straightp = false;
 		List<ICard> straightFlush = getStraightFlush();
 		Collections.sort(straightFlush);
+		int size = straightFlush.size();
 //		System.out.println("Straight Flush cards " + straightFlush);
 		if (straightFlush.size() >= 5) {
-			ICard topCard = straightFlush.get(straightFlush.size() - 1);
-			if (topCard.getRank() == Card.ACE) {
+			ICard topCard = straightFlush.get(size - 1);
+			ICard nextCard = straightFlush.get(size - 2);
+			if (topCard.getRank() == Card.ACE && nextCard.getRank() == ICard.KING) {
 				straightp = true;
 			} else if (topCard.getRank() == Card.KING
 					&& straightFlush.get(0).getRank() == Card.JOKER) {
@@ -995,7 +997,7 @@ public final class PaiGowHand extends Hand {
 		return straights.getStraights();
 	}
 
-	private List<ICard> getStraightFlush() {
+	public List<ICard> getStraightFlush() {
 		Set<List<ICard>> straightCards = getStraight();
 		List<ICard> flushCards = getFlush();
 //		System.out.println("Straight Cards " + straightCards);

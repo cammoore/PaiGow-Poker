@@ -116,4 +116,22 @@ public class StraightTreeTest {
 		System.out.println(tree.getStraights());
 
 	}
+	
+	@Test
+	public void testMultipleAceTwoStraight() {
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.SPADES, ICard.ACE));
+    cards.add(new Card(ICard.DIAMONDS, ICard.ACE));
+    cards.add(new Card(ICard.SPADES, ICard.TWO));
+    cards.add(new Card(ICard.SPADES, ICard.THREE));
+    cards.add(new Card(ICard.SPADES, ICard.FOUR));
+    cards.add(new Card(ICard.SPADES, ICard.FIVE));
+    cards.add(new Card(ICard.CLUBS, ICard.FOUR));
+		Collections.sort(cards);
+		System.out.println(cards);
+		tree = new StraightTree(cards);
+		System.out.println("tree: " + tree);
+		System.out.println("straights " + tree.getStraights());
+		assertTrue(tree.getNumStraights() + " != 4", tree.getNumStraights() == 4);
+	}
 }

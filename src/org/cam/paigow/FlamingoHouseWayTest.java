@@ -733,6 +733,53 @@ public class FlamingoHouseWayTest {
 
   }
   
+  @Test
+  public void testStraightFlush() {
+    // Straight Flush:
+    //
+    // Play the straight flush in back except play as a two pair with:
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.SPADES, ICard.QUEEN));
+    cards.add(new Card(ICard.DIAMONDS, ICard.SIX));
+    cards.add(new Card(ICard.SPADES, ICard.KING));
+    cards.add(new Card(ICard.SPADES, ICard.JACK));
+    cards.add(new Card(ICard.SPADES, ICard.NINE));
+    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.CLUBS, ICard.FOUR));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue(hand.description().equals("Straight Flush"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue("Got "+ low.get(0).getRank() + " not 6", low.get(0).getRank() == 4);
+    assertTrue("Got "+ low.get(1).getRank() + " not 4", low.get(1).getRank() == 6);
+    //
+    // Aces and any other pair.
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.SPADES, ICard.ACE));
+    cards.add(new Card(ICard.DIAMONDS, ICard.ACE));
+    cards.add(new Card(ICard.SPADES, ICard.TWO));
+    cards.add(new Card(ICard.SPADES, ICard.THREE));
+    cards.add(new Card(ICard.SPADES, ICard.FOUR));
+    cards.add(new Card(ICard.SPADES, ICard.FIVE));
+    cards.add(new Card(ICard.CLUBS, ICard.FOUR));
+    hand = new PaiGowHand(cards);
+    house.setHand(hand);
+    System.out.println(hand + " " + hand.description());
+    assertTrue("Got " + hand.description() + " need Straight Flush", hand.description().equals("Straight Flush"));
+    low = hand.getLowHand();
+    assertTrue(low.size() == 2);
+    assertTrue("Got "+ low.get(0).getRank() + " not 4", low.get(0).getRank() == 4);
+    assertTrue("Got "+ low.get(1).getRank() + " not 4", low.get(1).getRank() == 4);
+    
+    // Both pairs tens or higher.
+    // Both pairs tens or less and an ace singleton.
+    //
+    // Play a straight or flush instead if an ace and a face card or a pair
+    // can be played in front.
+  	
+  }
   
   @Test
   public void testProblemHands() {

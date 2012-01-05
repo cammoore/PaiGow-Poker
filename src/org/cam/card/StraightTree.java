@@ -84,24 +84,20 @@ public class StraightTree {
     CardNode c = new CardNode(card);
   	if (card.getRank() == ICard.ACE) {
   		// could be ACE, TWO, ...
-  		boolean foundTwo = true;
-  		while (foundTwo) {
-  			foundTwo = false;
-  			CardNode remove = null;
-  			for (CardNode root : rootNodes) {
-  				if (root.getCard().getRank() == ICard.TWO) {
-  					c.addChild(root);
-  					remove = root;
-  					foundTwo = true;
-  					break;
-  				}
-  			}
-  			if (foundTwo) {
-  				rootNodes.remove(remove);
-  				rootNodes.add(c);
+  		List<CardNode> aceNodes = new ArrayList<CardNode>();
+  		for (CardNode root : rootNodes) {
+  			if (root.getCard().getRank() == ICard.TWO) {
+  				c.addChild(root);
+  				aceNodes.add(c);
   			}
   		}
-      // add card to previous roots
+  		for(CardNode ace : aceNodes) {
+  			rootNodes.add(ace);
+  		}
+  		
+  		
+  		
+  		// add card to previous roots
       for (CardNode root : rootNodes) {
         addCardNode(root, c);
       }
@@ -132,14 +128,15 @@ public class StraightTree {
   }
 
   public int getNumStraights() {
-    int max = -1;
+    int sum = 0;
     for (CardNode root : rootNodes) {
       int temp = countLeaves(root);
-      if (temp > max) {
-        max = temp;
+      int depth = root.depth();
+      if (depth >= 5) {
+        sum += temp;
       }
     }
-    return max;
+    return sum;
   }
   
   public Set<List<ICard>> getStraights() {
