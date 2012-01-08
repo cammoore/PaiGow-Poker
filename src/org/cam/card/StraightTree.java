@@ -44,16 +44,16 @@ public class StraightTree {
     super();
   }
 
-  public StraightTree(ICard card) {
-    super();
-    rootNodes = new ArrayList<CardNode>();
-    if (card.getRank() == ICard.JOKER) {
-      this.joker = card;
-    }
-    else {
-      rootNodes.add(new CardNode(card));
-    }
-  }
+//  public StraightTree(ICard card) {
+//    super();
+//    rootNodes = new ArrayList<CardNode>();
+//    if (card.getRank() == ICard.JOKER) {
+//      this.joker = card;
+//    }
+//    else {
+//      rootNodes.add(new CardNode(card));
+//    }
+//  }
   
   public StraightTree(List<ICard> cards) {
     super();
@@ -82,14 +82,39 @@ public class StraightTree {
    */
   public void addCard(ICard card) {
     CardNode c = new CardNode(card);
-    // add card to previous roots
-    for (CardNode root : rootNodes) {
-      addCardNode(root, c);
-    }
-    // create new root with card
-    if (!rootNodes.contains(c)) {
-      rootNodes.add(c);
-    }
+  	if (card.getRank() == ICard.ACE) {
+  		// could be ACE, TWO, ...
+  		List<CardNode> aceNodes = new ArrayList<CardNode>();
+  		for (CardNode root : rootNodes) {
+  			if (root.getCard().getRank() == ICard.TWO) {
+  				c.addChild(root);
+  				aceNodes.add(c);
+  			}
+  		}
+  		for(CardNode ace : aceNodes) {
+  			rootNodes.add(ace);
+  		}
+  		
+  		
+  		
+  		// add card to previous roots
+      for (CardNode root : rootNodes) {
+        addCardNode(root, c);
+      }
+      // create new root with card
+      if (!rootNodes.contains(c)) {
+        rootNodes.add(c);
+      }  		  		
+  	} else {
+      // add card to previous roots
+      for (CardNode root : rootNodes) {
+        addCardNode(root, c);
+      }
+      // create new root with card
+      if (!rootNodes.contains(c)) {
+        rootNodes.add(c);
+      }  		
+  	}
   }
 
   public int maxStraightLength() {
@@ -103,14 +128,15 @@ public class StraightTree {
   }
 
   public int getNumStraights() {
-    int max = -1;
+    int sum = 0;
     for (CardNode root : rootNodes) {
       int temp = countLeaves(root);
-      if (temp > max) {
-        max = temp;
+      int depth = root.depth();
+      if (depth >= 5) {
+        sum += temp;
       }
     }
-    return max;
+    return sum;
   }
   
   public Set<List<ICard>> getStraights() {
@@ -161,7 +187,7 @@ public class StraightTree {
   private void getStraights(Set<List<ICard>> straights, List<ICard> currentStraight, CardNode node) {
     if (node.isLeaf()) {
       currentStraight.add(node.getCard());
-      if (currentStraight.size() >= 5) { // only ad straights of five or more cards
+      if (currentStraight.size() >= 5) { // only add straights of five or more cards
         straights.add(currentStraight);
       }
       return;

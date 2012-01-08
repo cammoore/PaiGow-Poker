@@ -109,24 +109,27 @@ public class PaiGowHandTest extends TestCase {
 
   @Test
   public void testStraight() {
-//     cards = new ArrayList<ICard>();
-//     cards.add(new Card(ICard.CLUBS, ICard.TWO));
-//     cards.add(new Card(ICard.SPADES, ICard.ACE));
-//     cards.add(new Card(ICard.HEARTS, ICard.THREE));
-//     cards.add(new Card(ICard.HEARTS, ICard.FIVE));
-//     cards.add(new Card(ICard.HEARTS, ICard.JACK));
-//     cards.add(new Card(ICard.DIAMONDS, ICard.QUEEN));
-//     cards.add(new Card(ICard.CLUBS, ICard.FOUR));
-//     hand = new PaiGaoHand(cards);
-//     System.out.println(hand + " " + hand.description());
-//     assertTrue(hand.description().equals("Straight"));
-//     low = hand.getLowHand();
-//     assertTrue("Have two cards", low.size() == 2);
-//     assertTrue("play two pair", low.get(0).getRank() == Card.JACK);
-//     assertTrue("play two pair", low.get(1).getRank() == Card.QUEEN);
-//     high = hand.getHighHand();
-//     assertTrue("Have five cards", high.size() == 5);
-//     assertTrue("aces", high.get(4).getRank() == Card.ACE);
+     cards = new ArrayList<ICard>();
+     cards.add(new Card(ICard.CLUBS, ICard.TWO));
+     cards.add(new Card(ICard.SPADES, ICard.ACE));
+     cards.add(new Card(ICard.HEARTS, ICard.THREE));
+     cards.add(new Card(ICard.HEARTS, ICard.FIVE));
+     cards.add(new Card(ICard.HEARTS, ICard.JACK));
+     cards.add(new Card(ICard.DIAMONDS, ICard.QUEEN));
+     cards.add(new Card(ICard.CLUBS, ICard.FOUR));
+     hand = new PaiGowHand(cards);
+     System.out.println(hand + " " + hand.description());
+     assertTrue(hand.description().equals("Straight"));
+     low = hand.getLowHand();
+     assertTrue("Have two cards", low.size() == 2);
+     assertTrue("play two pair", low.get(0).getRank() == Card.JACK);
+     assertTrue("play two pair", low.get(1).getRank() == Card.QUEEN);
+     high = hand.getHighHand();
+     assertTrue("Have five cards", high.size() == 5);
+     assertTrue("aces", high.get(4).getRank() == Card.ACE);
+     
+     
+     
 //
 //    // two pair w/ aces
 //    cards = new ArrayList<ICard>();
