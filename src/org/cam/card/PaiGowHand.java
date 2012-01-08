@@ -1140,10 +1140,10 @@ public final class PaiGowHand extends Hand {
   }
 
   private List<ICard> getStraightFlush() {
-//    List<ICard> straightCards = getStraight();
+    Map<ICard, StraightTree> straightCards = getStraight();
     Map<Integer, List<ICard>> flushCards = getFlush();
-    // System.out.println("Straight Cards " + straightCards);
-    // System.out.println("Flush Cards " + flushCards);
+     System.out.println("Straight Cards " + straightCards);
+     System.out.println("Flush Cards " + flushCards);
     List<ICard> both = new ArrayList<ICard>();
 //    for (ICard card : straightCards) {
 //      if (flushCards.contains(card) && !both.contains(card)) {

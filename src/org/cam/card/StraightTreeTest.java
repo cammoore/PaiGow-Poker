@@ -94,4 +94,21 @@ public class StraightTreeTest {
     assertTrue(tree.getStraights().size() == 3);
     System.out.println(tree.getStraights());
   }
+  
+  @Test
+  public void testAceTwoStraight() {
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.DIAMONDS, ICard.ACE));
+    cards.add(new Card(ICard.CLUBS, ICard.TWO));
+    cards.add(new Card(ICard.DIAMONDS, ICard.THREE));
+    cards.add(new Card(ICard.SPADES, ICard.THREE));
+    cards.add(new Card(ICard.HEARTS, ICard.FOUR));
+    cards.add(new Card(ICard.HEARTS, ICard.FIVE));
+    cards.add(new Card(ICard.CLUBS, ICard.JACK));
+    Collections.sort(cards);
+    System.out.println(cards);
+    tree = new StraightTree(cards);
+    System.out.println(tree);
+    assertTrue("2 straights", tree.getStraights().size() == 2);
+  }
 }
