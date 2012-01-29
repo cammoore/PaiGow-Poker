@@ -202,4 +202,78 @@ public class StraightTree {
       }
     }
   }
+  
+  public void processList(List<ICard> cards) {
+    Collections.sort(cards);
+    System.out.println("ProcessList " + cards);
+    rootNodes = new ArrayList<CardNode>();
+    // start off by adding each card as a root node
+    for (ICard c : cards) {
+      if (c.getRank() == ICard.JOKER) {
+        joker = c;
+      } else {
+        rootNodes.add(new CardNode(c));
+      }
+    }
+    for (int i = 0; i < rootNodes.size() - 1; i++) {
+      CardNode left = rootNodes.get(i);
+      CardNode right = rootNodes.get(i + 1);
+      addCardNode2(left, right);
+    }
+    if (joker != null) {
+      Set<List<ICard>> fours = new HashSet<List<ICard>>();
+      List<ICard> start = new ArrayList<ICard>();
+      for (CardNode root : rootNodes) {
+        start = new ArrayList<ICard>();
+        get4CardStraights(fours, start, root);
+      }
+      System.out.println("Fours "+ fours);
+    }
+  }
+  
+  private boolean addCardNode2(CardNode root, CardNode toAdd) {
+    boolean ret = false;
+    int rootRank = root.getRank();
+    int cardRank = toAdd.getRank();
+    if (rootRank + 1 == cardRank) {
+      if (!root.getChildren().contains(toAdd)) {
+        root.addChild(toAdd);
+      }
+      return true;
+    }
+    else if (rootRank + 2 == cardRank && joker != null && !root.hasJokerAncestor()) {
+      CardNode jokerNode = new CardNode(joker);
+      jokerNode.addChild(toAdd);
+      if (!root.getChildren().contains(jokerNode)) {
+        root.addChild(jokerNode);
+      }
+      return true;
+    }
+    else {
+      for (CardNode c : root.getChildren()) {
+        ret &= addCardNode2(c, toAdd);
+      }
+    }
+    return ret;
+  }
+
+  private void get4CardStraights(Set<List<ICard>> straights, List<ICard> currentStraight, CardNode node) {
+    if (node.isLeaf()) {
+      currentStraight.add(node.getCard());
+      if (currentStraight.size() == 4) { // only add straights of five or more cards
+        straights.add(currentStraight);
+      }
+      return;
+    } else {
+      currentStraight.add(node.getCard());
+      for (CardNode c: node.getChildren()) {
+        List<ICard> copy = new ArrayList<ICard>();
+        for (ICard card : currentStraight) {
+          copy.add(card);
+        }
+        get4CardStraights(straights, copy, c);
+      }
+    }
+  }
+
 }

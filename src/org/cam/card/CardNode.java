@@ -25,14 +25,15 @@ import java.util.List;
  *
  */
 /**
- * Represents a node of the CardTree class. The CardNode is also a container,
+ * Represents a node of the card tree. The CardNode is also a container,
  * and can be thought of as instrumentation to determine the location of the
  * ICard in the CardTree.
  */
 public class CardNode implements ICardNodeElement {
 
-  public ICard card;
-  public List<CardNode> children;
+  private ICard card;
+  private CardNode parent;
+  private List<CardNode> children;
 
   /**
    * Default constructor.
@@ -51,6 +52,15 @@ public class CardNode implements ICardNodeElement {
     this();
     this.card = card;
   }
+  
+  /**
+   * Constructs a CardNode instance.
+   * @param cn the CardNode to copy.
+   */
+  public CardNode(CardNode cn) {
+    this();
+    this.card = cn.getCard();
+  }
 
   /**
    * Adds a child to the list of children for this CardNode. The addition of the
@@ -63,6 +73,7 @@ public class CardNode implements ICardNodeElement {
       children = new ArrayList<CardNode>();
     }
     children.add(child);
+    child.parent = this;
   }
 
   /**
@@ -99,6 +110,42 @@ public class CardNode implements ICardNodeElement {
     return children.size();
   }
 
+  /**
+   * @return The parent of this CardNode.
+   */
+  public CardNode getParent() {
+    return parent;
+  }
+  
+  /**
+   * @return The root parent of this node. The root parent doesn't
+   * have a parent.
+   */
+  public CardNode getRootParent() {
+    CardNode ret = this;
+    while (ret.getParent() != null) {
+      ret = ret.getParent();
+    }
+    return ret;
+  }
+  
+  public boolean hasJokerAncestor() {
+    boolean ret = false;
+    CardNode r = this;
+    while (r.getParent() != null) {
+      r = r.getParent();
+      ret |= r.getCard().isJoker();
+    }
+    return ret;
+  }
+  
+  /**
+   * @return the Rank of the card in this CardNode.
+   */
+  public int getRank() {
+    return card.getRank();
+  }
+  
   public int depth() {
     int max = 0;
     for (CardNode c : getChildren()) {
@@ -109,6 +156,14 @@ public class CardNode implements ICardNodeElement {
     return max + 1;
   }
 
+  public boolean hasJoker() {
+    boolean ret = card.isJoker();
+    for (CardNode c : getChildren()) {
+      ret |= c.hasJoker();
+    }
+    return ret;
+  }
+  
   @Override
   public boolean equals(Object o) {
     try {
