@@ -25,10 +25,9 @@ import java.util.Set;
 
 /**
  * Represents a Straight Tree of ICards. A straight of cards might have multiple
- * combinations (e.g. C9, S10, D10, HJ, CQ, HK, SK) has four possible straights.
- * 
- * C9 S10 D10 HJ HJ CQ CQ HK SK HK SK
- * 
+ * combinations (e.g. C9, S10, D10, HJ, CQ, HK, SK) has four possible straights. 
+ * [C9, S10, HJ, CQ, HK], [C9, S10, HJ, CQ, SK], [C9, D10, HJ, CQ, HK] and
+ * [C9, D10, HJ, CQ, SK]
  * 
  * 
  * @author Cam Moore
@@ -38,10 +37,13 @@ public class StraightTree {
 
   /** joker a ICard */
   private ICard joker = null;
+  private List<Integer> jokerRanks;
   private List<CardNode> rootNodes;
 
   public StraightTree() {
     super();
+    rootNodes = new ArrayList<CardNode>();
+    jokerRanks = new ArrayList<Integer>();
   }
 
 //  public StraightTree(ICard card) {
@@ -58,6 +60,7 @@ public class StraightTree {
   public StraightTree(List<ICard> cards) {
     super();
     rootNodes = new ArrayList<CardNode>();
+    jokerRanks = new ArrayList<Integer>();
     Collections.sort(cards);
     for (ICard c : cards) {
       addCard(c);
@@ -128,15 +131,7 @@ public class StraightTree {
   }
 
   public int getNumStraights() {
-    int sum = 0;
-    for (CardNode root : rootNodes) {
-      int temp = countLeaves(root);
-      int depth = root.depth();
-      if (depth >= 5) {
-        sum += temp;
-      }
-    }
-    return sum;
+    return getStraights().size();
   }
   
   public Set<List<ICard>> getStraights() {
@@ -157,12 +152,14 @@ public class StraightTree {
     boolean ret = false;
     int rootRank = root.getCard().getRank();
     int cardRank = toAdd.getCard().getRank();
+    // if card is next add it to children
     if (rootRank + 1 == cardRank) {
       if (!root.getChildren().contains(toAdd)) {
         root.addChild(toAdd);
       }
       return true;
     }
+    // else check all the children to see if can add to them.
     else {
       for (CardNode c : root.getChildren()) {
         ret &= addCardNode(c, toAdd);
@@ -188,7 +185,36 @@ public class StraightTree {
     if (node.isLeaf()) {
       currentStraight.add(node.getCard());
       if (currentStraight.size() >= 5) { // only add straights of five or more cards
-        straights.add(currentStraight);
+        int numJokerAdded = 0;
+        for (int i = 0; i < currentStraight.size() - 1; i++) {
+          int lRank = currentStraight.get(i).getRank();
+          int rRank = currentStraight.get(i + 1).getRank();
+          if (lRank + 2 == rRank) {
+            numJokerAdded++;
+          }
+        }
+        if (numJokerAdded <  2) {
+          straights.add(currentStraight);
+        }
+      } else if (currentStraight.size() == 4 && joker != null) {
+        int numTimesAdded = 0;
+        boolean addedJoker = false;
+        for (int i = 0; i < currentStraight.size() - 1; i++) {
+          int lRank = currentStraight.get(i).getRank();
+          int rRank = currentStraight.get(i + 1).getRank();
+          if (lRank + 2 == rRank) {
+            currentStraight.add(i + 1, joker);
+            numTimesAdded++;
+            addedJoker = true;
+          }
+        }
+        if (!addedJoker) {
+          currentStraight.add(joker);
+          numTimesAdded++;
+        }
+        if (numTimesAdded < 2) {
+          straights.add(currentStraight);
+        }
       }
       return;
     } else {
@@ -205,29 +231,25 @@ public class StraightTree {
   
   public void processList(List<ICard> cards) {
     Collections.sort(cards);
-    System.out.println("ProcessList " + cards);
+//    System.out.println("ProcessList " + cards);
     rootNodes = new ArrayList<CardNode>();
-    // start off by adding each card as a root node
+    jokerRanks = new ArrayList<Integer>();
+    // check for joker
+    if (cards.get(0).getRank() == ICard.JOKER) {
+      joker = cards.get(0);
+    }
+    // loop through all the cards
     for (ICard c : cards) {
-      if (c.getRank() == ICard.JOKER) {
-        joker = c;
-      } else {
-        rootNodes.add(new CardNode(c));
-      }
-    }
-    for (int i = 0; i < rootNodes.size() - 1; i++) {
-      CardNode left = rootNodes.get(i);
-      CardNode right = rootNodes.get(i + 1);
-      addCardNode2(left, right);
-    }
-    if (joker != null) {
-      Set<List<ICard>> fours = new HashSet<List<ICard>>();
-      List<ICard> start = new ArrayList<ICard>();
+      // Create a CardNode for c
+      CardNode cNode = new CardNode(c);
+      // loop through all the root nodes
       for (CardNode root : rootNodes) {
-        start = new ArrayList<ICard>();
-        get4CardStraights(fours, start, root);
+        addCardNode2(root, cNode);
       }
-      System.out.println("Fours "+ fours);
+      // don't add Joker as root node.
+      if (!rootNodes.contains(cNode) && c.getRank() != ICard.JOKER) {
+        rootNodes.add(cNode);
+      }
     }
   }
   
@@ -241,13 +263,23 @@ public class StraightTree {
       }
       return true;
     }
-    else if (rootRank + 2 == cardRank && joker != null && !root.hasJokerAncestor()) {
-      CardNode jokerNode = new CardNode(joker);
-      jokerNode.addChild(toAdd);
-      if (!root.getChildren().contains(jokerNode)) {
-        root.addChild(jokerNode);
+    else if (rootRank + 2 == cardRank && joker != null) {
+      Integer jokerRank = new Integer(rootRank + 1);
+      boolean add = true;
+//      for (Integer i : jokerRanks) {
+//        if (Math.abs(jokerRank - i) == 2 ||
+//            Math.abs(jokerRank - i) == 3) {
+//          add = false;
+//        }
+//      }
+      if (add) {
+        jokerRanks.add(jokerRank);
+        if (!root.getChildren().contains(toAdd)) {
+          root.addChild(toAdd);
+        }
+        return true;
       }
-      return true;
+      return false;
     }
     else {
       for (CardNode c : root.getChildren()) {

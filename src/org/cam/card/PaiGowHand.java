@@ -989,11 +989,11 @@ public final class PaiGowHand extends Hand {
 	 * @return A list of the flush cards. The list will be empty if their isn't
 	 * a five card flush.
 	 */
-	private List<ICard> getFlush() {
+	public List<ICard> getFlush() {
 		return flushes.getFlush();
 	}
 
-	private Set<List<ICard>> getStraight() {
+	public Set<List<ICard>> getStraight() {
 		return straights.getStraights();
 	}
 

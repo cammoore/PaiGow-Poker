@@ -141,7 +141,8 @@ public class StraightTreeTest {
     Collections.sort(cards);
     tree = new StraightTree();
     tree.processList(cards);
-    System.out.println(tree);
+//    System.out.println(tree);
+//    System.out.println(tree.getStraights());
     assertTrue(tree.getNumStraights() + " != 1", tree.getNumStraights() == 1);
 
     cards = new ArrayList<ICard>();
@@ -150,13 +151,14 @@ public class StraightTreeTest {
     cards.add(new Card(ICard.DIAMONDS, ICard.JACK));
     cards.add(new Card(ICard.HEARTS, ICard.NINE));
     cards.add(new Card(ICard.HEARTS, ICard.EIGHT));
-    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.SPADES, ICard.NINE));
     cards.add(new Card(ICard.CLUBS, ICard.TWO));
     Collections.sort(cards);
     tree = new StraightTree();
     tree.processList(cards);
-    System.out.println(tree);
-    assertTrue(tree.getNumStraights() + " != 1", tree.getNumStraights() == 1);
+//    System.out.println(tree);
+//    System.out.println(tree.getStraights());
+    assertTrue(tree.getNumStraights() + " != 2", tree.getNumStraights() == 2);
 
     cards = new ArrayList<ICard>();
     cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
@@ -169,8 +171,9 @@ public class StraightTreeTest {
     Collections.sort(cards);
     tree = new StraightTree();
     tree.processList(cards);
-    System.out.println(tree);
-//    assertTrue(tree.getNumStraights() + " != 1", tree.getNumStraights() == 1);
+//    System.out.println(tree);
+//    System.out.println(tree.getStraights());
+    assertTrue(tree.getNumStraights() + " != 1", tree.getNumStraights() == 1);
 
     cards = new ArrayList<ICard>();
     cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
@@ -183,8 +186,55 @@ public class StraightTreeTest {
     Collections.sort(cards);
     tree = new StraightTree();
     tree.processList(cards);
-    System.out.println(tree);
+//    System.out.println(tree);
+//    System.out.println(tree.getStraights());
     assertTrue(tree.getNumStraights() + " != 0", tree.getNumStraights() == 0);
+
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
+    cards.add(new Card(ICard.CLUBS, ICard.SIX));
+    cards.add(new Card(ICard.DIAMONDS, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.EIGHT));
+    cards.add(new Card(ICard.HEARTS, ICard.THREE));
+    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.CLUBS, ICard.KING));
+    Collections.sort(cards);
+    tree = new StraightTree();
+    tree.processList(cards);
+//    System.out.println(tree);
+//    System.out.println(tree.getStraights());
+    assertTrue(tree.getNumStraights() + " != 0", tree.getNumStraights() == 0);
+
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
+    cards.add(new Card(ICard.CLUBS, ICard.SIX));
+    cards.add(new Card(ICard.DIAMONDS, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.EIGHT));
+    cards.add(new Card(ICard.HEARTS, ICard.THREE));
+    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.CLUBS, ICard.QUEEN));
+    Collections.sort(cards);
+    tree = new StraightTree();
+    tree.processList(cards);
+//    System.out.println(tree);
+//    System.out.println(tree.getStraights());
+    assertTrue(tree.getNumStraights() + " != 1", tree.getNumStraights() == 1);
+
+    cards = new ArrayList<ICard>();
+    cards.add(new Card(ICard.PAI_GAO_JOKER, ICard.JOKER));
+    cards.add(new Card(ICard.CLUBS, ICard.SIX));
+    cards.add(new Card(ICard.DIAMONDS, ICard.JACK));
+    cards.add(new Card(ICard.HEARTS, ICard.NINE));
+    cards.add(new Card(ICard.HEARTS, ICard.THREE));
+    cards.add(new Card(ICard.SPADES, ICard.TEN));
+    cards.add(new Card(ICard.CLUBS, ICard.QUEEN));
+    Collections.sort(cards);
+    tree = new StraightTree();
+    tree.processList(cards);
+//    System.out.println(tree);
+//    System.out.println(tree.getStraights());
+    assertTrue(tree.getNumStraights() + " != 1", tree.getNumStraights() == 1);
+  
   }
 
   // @Test

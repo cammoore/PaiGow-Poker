@@ -20,6 +20,7 @@ package org.cam.paigow;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.cam.card.Card;
 import org.cam.card.ICard;
 import org.cam.card.IHouseWay;
@@ -747,14 +748,13 @@ public class FlamingoHouseWay implements IHouseWay {
 
   /**
    * Royal Flush:
-   *
-   * Play the royal flush in back except play as a two pair with:
-   * Aces and any other pair.
-   * Both pairs tens or higher.
-   *
+   * 
+   * Play the royal flush in back except play as a two pair with: Aces and any
+   * other pair. Both pairs tens or higher.
+   * 
    * Break up royal flush if a straight or flush can be played in back and a
    * king or better in front.
- 
+   * 
    * @param hand
    * @see org.cam.card.IHouseWay#playRoyalFlush(org.cam.card.PaiGowHand)
    */
@@ -768,7 +768,7 @@ public class FlamingoHouseWay implements IHouseWay {
     Collections.reverse(cards);
     lowHand.clear();
     highHand.clear();
-    
+
     // Royal Flush:
     //
     // Play the royal flush in back except play as a two pair with:
@@ -790,141 +790,145 @@ public class FlamingoHouseWay implements IHouseWay {
         secondRank = cards.get(i).getRank();
       }
     }
-    if (firstPairStart != -1 &&
-        cards.get(0).getRank() == ICard.ACE &&
-        cards.get(6).getRank() == ICard.JOKER) { // pair of aces and other
+    if (firstPairStart != -1 && cards.get(0).getRank() == ICard.ACE
+        && cards.get(6).getRank() == ICard.JOKER) { // pair of aces and other
       playTwoPair(hand);
       return;
-    } else if (firstPairStart != -1 &&
-        secondPairStart != -1 &&
-        firstRank >= ICard.TEN &&
-        secondRank >= ICard.TEN) {
+    }
+    else if (firstPairStart != -1 && secondPairStart != -1 && firstRank >= ICard.TEN
+        && secondRank >= ICard.TEN) {
       playTwoPair(hand);
       return;
     }
 
-    
     // Break up royal flush if a straight or flush can be played in back and a
     // king or better in front.
     List<ICard> straightFlush = hand.getStraightFlush();
     if (straightFlush.size() == 7) {
-			lowHand.add(cards.get(5));
-			lowHand.add(cards.get(6));
-			for (int i = 0; i < 5; i++) {
-				highHand.add(cards.get(i));
-			}
-		}
-		// play straigh flush
-		// check for joker
-		else if (cards.get(0).getRank() == Card.JOKER) {
-			lowHand.add(cards.get(1));
-			lowHand.add(cards.get(2));
-			highHand.add(cards.get(0));
-			for (int i = 3; i < cards.size(); i++) {
-				highHand.add(cards.get(i));
-			}
-		} else {
-			lowHand.add(cards.get(0));
-			lowHand.add(cards.get(1));
-			for (int i = 2; i < cards.size(); i++) {
-				highHand.add(cards.get(i));
-			}
-		}
+      lowHand.add(cards.get(5));
+      lowHand.add(cards.get(6));
+      for (int i = 0; i < 5; i++) {
+        highHand.add(cards.get(i));
+      }
+    }
+    // play straigh flush
+    // check for joker
+    else if (cards.get(0).getRank() == Card.JOKER) {
+      lowHand.add(cards.get(1));
+      lowHand.add(cards.get(2));
+      highHand.add(cards.get(0));
+      for (int i = 3; i < cards.size(); i++) {
+        highHand.add(cards.get(i));
+      }
+    }
+    else {
+      lowHand.add(cards.get(0));
+      lowHand.add(cards.get(1));
+      for (int i = 2; i < cards.size(); i++) {
+        highHand.add(cards.get(i));
+      }
+    }
 
-     hand.setLowHand(lowHand);
-     hand.setHighHand(highHand);
+    hand.setLowHand(lowHand);
+    hand.setHighHand(highHand);
   }
 
   /**
    * Straight Flush:
-   *
+   * 
    * Play the straight flush in back except play as a two pair with:
-   *
-   * Aces and any other pair.
-   * Both pairs tens or higher.
-   * Both pairs tens or less and an ace singleton.
-   *
-   * Play a straight or flush instead if an ace and a face card or a pair
-   * can be played in front.
-	 *
+   * 
+   * Aces and any other pair. Both pairs tens or higher. Both pairs tens or less
+   * and an ace singleton.
+   * 
+   * Play a straight or flush instead if an ace and a face card or a pair can be
+   * played in front.
+   * 
    * @param hand
    * @see org.cam.card.IHouseWay#playStraightFlush(org.cam.card.PaiGowHand)
    */
   @Override
   public void playStraightFlush(PaiGowHand hand) {
     System.err.println("playStraightFlush");
-     cards.clear();
-     for (ICard c : hand.getCards()) {
-    	 cards.add(c);
-     }
-     Collections.reverse(cards);
-     lowHand.clear();
-     highHand.clear();
-     // Straight Flush:
-     //
-     // Play the straight flush in back except play as a two pair with:
-     //
-     int firstPairStart = -1;
-     int firstRank = -1;
-     int secondPairStart = -1;
-     int secondRank = -1;
-     for (int i = 0; i < cards.size() - 1; i++) {
-       if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart == -1) {
-         firstPairStart = i;
-         firstRank = cards.get(i).getRank();
-       }
-       else if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart != -1
-           && secondPairStart == -1) {
-         secondPairStart = i;
-         secondRank = cards.get(i).getRank();
-       }
-     }
+    cards.clear();
+    for (ICard c : hand.getCards()) {
+      cards.add(c);
+    }
+    Collections.reverse(cards);
+    lowHand.clear();
+    highHand.clear();
+    // Straight Flush:
+    //
+    // Play the straight flush in back except play as a two pair with:
+    //
+    int firstPairStart = -1;
+    int firstRank = -1;
+    int secondPairStart = -1;
+    int secondRank = -1;
+    for (int i = 0; i < cards.size() - 1; i++) {
+      if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart == -1) {
+        firstPairStart = i;
+        firstRank = cards.get(i).getRank();
+      }
+      else if (cards.get(i).getRank() == cards.get(i + 1).getRank() && firstPairStart != -1
+          && secondPairStart == -1) {
+        secondPairStart = i;
+        secondRank = cards.get(i).getRank();
+      }
+    }
+    // System.out.println("firstPair rank " + firstRank);
+    // System.out.println("secondPair rank " + secondRank);
+    // Aces and any other pair.
+    // Both pairs tens or higher.
+    if (firstPairStart != -1 && cards.get(0).getRank() == ICard.ACE
+        && cards.get(6).getRank() == ICard.JOKER) { // pair of aces and other
+      playTwoPair(hand);
+      return;
+    }
+    else if (firstPairStart != -1 && secondPairStart != -1 && firstRank >= ICard.TEN
+        && secondRank >= ICard.TEN) {
+      playTwoPair(hand);
+      return;
+    }
+    // Play a straight or flush instead if an ace and a face card or a pair can be
+    // played in front.
+    List<ICard> flush = hand.getFlush();
+    Set<List<ICard>> straights = hand.getStraight();
+    List<ICard> straightFlush = hand.getStraightFlush();
+    System.out.println("straightFlush " + straightFlush);
+    System.out.println("flush = " + flush);
+    System.out.println("straights = " + straights);
+    if (straightFlush.size() == 7) {
+      lowHand.add(cards.get(5));
+      lowHand.add(cards.get(6));
+      for (int i = 0; i < 5; i++) {
+        highHand.add(cards.get(i));
+      }
+    }
+    // play straigh flush
+    // check for joker
+    else if (cards.get(0).getRank() == Card.JOKER) {
+      lowHand.add(cards.get(1));
+      lowHand.add(cards.get(2));
+      highHand.add(cards.get(0));
+      for (int i = 3; i < cards.size(); i++) {
+        highHand.add(cards.get(i));
+      }
+    }
+    else {
+      lowHand.add(cards.get(0));
+      lowHand.add(cards.get(1));
+      for (int i = 2; i < cards.size(); i++) {
+        highHand.add(cards.get(i));
+      }
+    }
+    // Both pairs tens or less and an ace singleton.
+    //
+    // Play a straight or flush instead if an ace and a face card or a pair
+    // can be played in front.
 
-     // Aces and any other pair.
-     // Both pairs tens or higher.
-     if (firstPairStart != -1 &&
-         cards.get(0).getRank() == ICard.ACE &&
-         cards.get(6).getRank() == ICard.JOKER) { // pair of aces and other
-       playTwoPair(hand);
-       return;
-     } else if (firstPairStart != -1 &&
-         secondPairStart != -1 &&
-         firstRank >= ICard.TEN &&
-         secondRank >= ICard.TEN) {
-       playTwoPair(hand);
-       return;
-     }
-     List<ICard> straightFlush = hand.getStraightFlush();
-     if (straightFlush.size() == 7) {
- 			lowHand.add(cards.get(5));
- 			lowHand.add(cards.get(6));
- 			for (int i = 0; i < 5; i++) {
- 				highHand.add(cards.get(i));
- 			}
- 		}
- 		// play straigh flush
- 		// check for joker
- 		else if (cards.get(0).getRank() == Card.JOKER) {
- 			lowHand.add(cards.get(1));
- 			lowHand.add(cards.get(2));
- 			highHand.add(cards.get(0));
- 			for (int i = 3; i < cards.size(); i++) {
- 				highHand.add(cards.get(i));
- 			}
- 		} else {
- 			lowHand.add(cards.get(0));
- 			lowHand.add(cards.get(1));
- 			for (int i = 2; i < cards.size(); i++) {
- 				highHand.add(cards.get(i));
- 			}
- 		}
-     // Both pairs tens or less and an ace singleton.
-     //
-     // Play a straight or flush instead if an ace and a face card or a pair
-     // can be played in front.
-
-     hand.setLowHand(lowHand);
-     hand.setHighHand(highHand);
+    hand.setLowHand(lowHand);
+    hand.setHighHand(highHand);
   }
 
   /**
@@ -1167,7 +1171,7 @@ public class FlamingoHouseWay implements IHouseWay {
     if (cards.get(0).getRank() == ICard.ACE) {
       ace = cards.get(0);
     }
-    
+
     for (int i = 0; i < cards.size() - 1; i++) {
       if (cards.get(i).getRank() == cards.get(i + 1).getRank() && !haveFirst) {
         p11 = cards.get(i);
@@ -1184,17 +1188,15 @@ public class FlamingoHouseWay implements IHouseWay {
         p22 = cards.get(i + 1);
       }
     }
-    if (cards.get(0).getRank() == ICard.ACE &&
-        p21 == null &&
-        cards.get(6).getRank() == ICard.JOKER) {
-        p21 = p11;
-        p22 = p12;
-        p11 = cards.get(0);
-        p12 = cards.get(6);
+    if (cards.get(0).getRank() == ICard.ACE && p21 == null && cards.get(6).getRank() == ICard.JOKER) {
+      p21 = p11;
+      p22 = p12;
+      p11 = cards.get(0);
+      p12 = cards.get(6);
     }
 
-//     System.out.println("two pair " + p11 + "," + p12 + " " + p21 + "," +
-//     p22);
+    // System.out.println("two pair " + p11 + "," + p12 + " " + p21 + "," +
+    // p22);
     if (p11.getRank() <= ICard.SIX && p21.getRank() <= ICard.SIX) {
       // Both pairs are 6's or less keep together
       highHand.add(p11);
